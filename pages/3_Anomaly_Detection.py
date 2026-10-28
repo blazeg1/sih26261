@@ -414,17 +414,20 @@ with tab_crossapp:
 
     # 3. Year-over-Year Physical Campus Consistency
     st.markdown("#### 3. Year-over-Year Physical Campus Consistency")
-    yoy_res = cross_intel.check_year_over_year_consistency(
-        current_data={"builtup_area_sqm": 9800.0, "total_faculty": 42},
-        previous_year_data={"builtup_area_sqm": 14000.0, "total_faculty": 45}
+    yoy_findings = cross_intel.check_year_over_year_consistency(
+        current_year_data={"built_up_area_sqm": 9800.0, "total_faculty": 42},
+        prior_year_data={"built_up_area_sqm": 14000.0, "total_faculty": 45}
     )
-    for f in yoy_res["findings"]:
-        st.markdown(f"""
-        <div style="background:#FEF3C7; border-left:4px solid #F59E0B; border-radius:8px; padding:12px 18px; margin-bottom:8px;">
-            <strong style="color:#92400E;">⚠️ {f['indicator']}:</strong> {f['detail']}
-            <div style="font-size:0.78rem; color:#78350F; margin-top:2px;">Evidence: {f['evidence']}</div>
-        </div>
-        """, unsafe_allow_html=True)
+    for f in yoy_findings:
+        msg = f.get("message") or f.get("detail", "")
+        evidence = str(f.get("computed_values") or f.get("evidence", ""))
+        st.markdown(
+            f'<div style="background:#FEF3C7; border-left:4px solid #F59E0B; border-radius:8px; padding:12px 18px; margin-bottom:8px;">'
+            f'<strong style="color:#92400E;">⚠️ {f.get("type", "YoY Consistency Alert")}:</strong> {msg}'
+            f'<div style="font-size:0.78rem; color:#78350F; margin-top:2px;">Evidence: {evidence}</div>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
 
 # Footer
 render_sih_footer()

@@ -167,15 +167,22 @@ class CrossApplicationIntelligence:
                     })
         return findings
 
-    def check_year_over_year_consistency(self, current_year_data: Dict[str, Any], prior_year_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def check_year_over_year_consistency(
+        self,
+        current_year_data: Optional[Dict[str, Any]] = None,
+        prior_year_data: Optional[Dict[str, Any]] = None,
+        **kwargs
+    ) -> List[Dict[str, Any]]:
         """
         Detect unexplained structural reductions or high faculty turnover between consecutive approval cycles.
         """
+        curr = current_year_data or kwargs.get("current_data") or {}
+        prior = prior_year_data or kwargs.get("previous_year_data") or kwargs.get("prior_data") or {}
         findings = []
 
         # 1. Shrunk Built-up Area
-        curr_area = current_year_data.get("built_up_area_sqm", 0.0)
-        prior_area = prior_year_data.get("built_up_area_sqm", 0.0)
+        curr_area = curr.get("built_up_area_sqm") or curr.get("builtup_area_sqm", 0.0)
+        prior_area = prior.get("built_up_area_sqm") or prior.get("builtup_area_sqm", 0.0)
         if prior_area > 0 and curr_area > 0:
             reduction = prior_area - curr_area
             if reduction > (prior_area * 0.10):  # More than 10% reduction
@@ -193,9 +200,9 @@ class CrossApplicationIntelligence:
                 })
 
         # 2. Changed Land Survey Number without Change of Site
-        curr_survey = str(current_year_data.get("survey_number", "")).strip()
-        prior_survey = str(prior_year_data.get("survey_number", "")).strip()
-        category = current_year_data.get("category", "EOA")
+        curr_survey = str(curr.get("survey_number", "")).strip()
+        prior_survey = str(prior.get("survey_number", "")).strip()
+        category = curr.get("category", "EOA")
         if curr_survey and prior_survey and curr_survey != prior_survey and category != "CHANGE_OF_SITE":
             findings.append({
                 "type": "Unapproved Campus Survey Number Change",
@@ -210,8 +217,8 @@ class CrossApplicationIntelligence:
             })
 
         # 3. Excessive Faculty Turnover (> 60%)
-        prior_fac_set = set(prior_year_data.get("faculty_hashes", []))
-        curr_fac_set = set(current_year_data.get("faculty_hashes", []))
+        prior_fac_set = set(prior.get("faculty_hashes", []))
+        curr_fac_set = set(curr.get("faculty_hashes", []))
         if prior_fac_set and curr_fac_set:
             retained = len(prior_fac_set.intersection(curr_fac_set))
             turnover_pct = round((1 - (retained / len(prior_fac_set))) * 100, 1)

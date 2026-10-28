@@ -14,7 +14,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from config.settings import APP_TITLE, DATABASE_PATH, ComplianceCategories
+from config.settings import APP_TITLE, DATABASE_PATH
+from modules.compliance_checker import ComplianceCategory
 from utils.auth import check_auth, get_current_user
 from utils.helpers import get_timestamp
 from utils.styles import (
@@ -100,8 +101,9 @@ app_data = {
 }
 
 checker = ComplianceChecker()
-result = checker.check_all(app_data, category=app_data["category"])
-score = result.get("compliance_score", 88.5)
+raw_checks = checker.check_compliance(app_data)
+result = checker.get_compliance_summary(raw_checks)
+score = result.get("compliance_score", checker.get_compliance_score(raw_checks))
 score_color = "#10B981" if score >= 80 else "#F59E0B" if score >= 50 else "#EF4444"
 
 # ── Overall Score Ring & Overview Metrics (Task 8 & 10) ────────────────

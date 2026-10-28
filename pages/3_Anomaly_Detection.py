@@ -16,7 +16,7 @@ import plotly.graph_objects as go
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from config.settings import APP_TITLE, DATABASE_PATH, SeverityLevels
+from config.settings import APP_TITLE, DATABASE_PATH, SEVERITY_LEVELS
 from utils.auth import check_auth, get_current_user
 from utils.helpers import get_timestamp
 from utils.styles import (

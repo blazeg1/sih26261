@@ -174,19 +174,6 @@ with col4:
 st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
 
 # ── Row 2: Recent Applications Table with Status Badges (Task 5) ───────
-st.markdown("""
-<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:16px; padding:20px 24px; box-shadow:0 4px 20px rgba(11,31,75,0.06); margin-bottom:1.5rem;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <div>
-            <h3 style="margin:0; font-size:1.15rem; color:#0B1F4B; font-weight:700;">📋 Recent Applications Docket</h3>
-            <p style="margin:2px 0 0 0; color:#5B6B8A; font-size:0.8rem;">Real-time queue of institutional submissions undergoing AICTE scrutiny</p>
-        </div>
-        <span style="font-size:0.75rem; background:#F1F5F9; color:#475569; padding:4px 10px; border-radius:9999px; font-weight:600;">
-            Showing Latest 10 Cases
-        </span>
-    </div>
-""", unsafe_allow_html=True)
-
 conn = sqlite3.connect(DATABASE_PATH)
 cursor = conn.cursor()
 cursor.execute("""
@@ -200,48 +187,54 @@ rows = cursor.fetchall()
 conn.close()
 
 if rows:
-    # Convert to HTML table with color-coded status badges, zebra rows & hover highlight
-    table_rows_html = ""
+    table_rows_html = []
     for idx, r in enumerate(rows):
         row_bg = "#FFFFFF" if idx % 2 == 0 else "#F8FAFC"
         badge = status_badge_html(r[5])
         sub_date = str(r[6])[:10] if r[6] else "2026-03-24"
-        table_rows_html += f"""
-        <tr style="background:{row_bg}; border-bottom:1px solid #E2E8F0; transition:background-color 0.2s ease;">
-            <td style="padding:12px 14px; font-weight:700; color:#0B1F4B;">APP-2026-{1000 + r[0]}</td>
-            <td style="padding:12px 14px; font-weight:600; color:#1E293B;">{r[1]}</td>
-            <td style="padding:12px 14px; color:#475569; font-family:monospace; font-size:0.85rem;">{r[2]}</td>
-            <td style="padding:12px 14px; color:#334155; font-size:0.85rem;">{r[3]}</td>
-            <td style="padding:12px 14px; color:#64748B; font-size:0.85rem;">{r[4]}</td>
-            <td style="padding:12px 14px;">{badge}</td>
-            <td style="padding:12px 14px; color:#64748B; font-size:0.82rem;">{sub_date}</td>
-        </tr>
-        """
+        table_rows_html.append(
+            f'<tr style="background:{row_bg}; border-bottom:1px solid #E2E8F0;">'
+            f'<td style="padding:12px 14px; font-weight:700; color:#0B1F4B;">APP-2026-{1000 + r[0]}</td>'
+            f'<td style="padding:12px 14px; font-weight:600; color:#1E293B;">{r[1]}</td>'
+            f'<td style="padding:12px 14px; color:#475569; font-family:monospace; font-size:0.85rem;">{r[2]}</td>'
+            f'<td style="padding:12px 14px; color:#334155; font-size:0.85rem;">{r[3]}</td>'
+            f'<td style="padding:12px 14px; color:#64748B; font-size:0.85rem;">{r[4]}</td>'
+            f'<td style="padding:12px 14px;">{badge}</td>'
+            f'<td style="padding:12px 14px; color:#64748B; font-size:0.82rem;">{sub_date}</td>'
+            f'</tr>'
+        )
+    rows_joined = "".join(table_rows_html)
 
-    st.markdown(f"""
-    <div style="overflow-x:auto;">
-        <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.88rem;">
-            <thead>
-                <tr style="background:#0B1F4B; color:#FFFFFF; border-top-left-radius:8px; border-top-right-radius:8px;">
-                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Dossier ID</th>
-                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Institution Name</th>
-                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">AICTE Permanent ID</th>
-                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Category</th>
-                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Academic Year</th>
-                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Scrutiny Status</th>
-                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Submitted Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {table_rows_html}
-            </tbody>
-        </table>
-    </div>
-    """, unsafe_allow_html=True)
+    docket_html = (
+        '<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:16px; padding:20px 24px; box-shadow:0 4px 20px rgba(11,31,75,0.06); margin-bottom:1.5rem;">'
+        '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">'
+        '<div>'
+        '<h3 style="margin:0; font-size:1.15rem; color:#0B1F4B; font-weight:700;">📋 Recent Applications Docket</h3>'
+        '<p style="margin:2px 0 0 0; color:#5B6B8A; font-size:0.8rem;">Real-time queue of institutional submissions undergoing AICTE scrutiny</p>'
+        '</div>'
+        '<span style="font-size:0.75rem; background:#F1F5F9; color:#475569; padding:4px 10px; border-radius:9999px; font-weight:600;">Showing Latest 10 Cases</span>'
+        '</div>'
+        '<div style="overflow-x:auto;">'
+        '<table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.88rem;">'
+        '<thead>'
+        '<tr style="background:#0B1F4B; color:#FFFFFF;">'
+        '<th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase;">Dossier ID</th>'
+        '<th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase;">Institution Name</th>'
+        '<th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase;">AICTE Permanent ID</th>'
+        '<th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase;">Category</th>'
+        '<th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase;">Academic Year</th>'
+        '<th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase;">Scrutiny Status</th>'
+        '<th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase;">Submitted Date</th>'
+        '</tr>'
+        '</thead>'
+        f'<tbody>{rows_joined}</tbody>'
+        '</table>'
+        '</div>'
+        '</div>'
+    )
+    st.markdown(docket_html, unsafe_allow_html=True)
 else:
     st.info("No applications found in the database. Please navigate to 'Application Upload' to ingest institutional records.")
-
-st.markdown("</div>", unsafe_allow_html=True)
 
 # ── Row 3: Platform Scrutiny Architecture (Feature Cards) ──────────────
 st.markdown("""

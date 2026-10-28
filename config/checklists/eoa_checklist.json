@@ -1,0 +1,338 @@
+{
+  "checklist_name": "Extension of Approval (EOA)",
+  "category": "EOA",
+  "version": "2025-26",
+  "description": "Checklist for Extension of Approval applications under AICTE regulations.",
+  "required_documents": [
+    {
+      "doc_type": "AFFIDAVIT",
+      "name": "Affidavit on Stamp Paper",
+      "description": "Notarized affidavit on stamp paper as per prescribed format by the governing body",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "NOC",
+      "name": "State Government NOC",
+      "description": "No Objection Certificate from the concerned State Government / UT Administration",
+      "required": true,
+      "validity_period_months": 24
+    },
+    {
+      "doc_type": "ACCREDITATION_CERT",
+      "name": "NBA / NAAC Accreditation Certificate",
+      "description": "Accreditation certificate from NBA or NAAC if applicable",
+      "required": false,
+      "validity_period_months": 60
+    },
+    {
+      "doc_type": "FIRE_SAFETY_CERT",
+      "name": "Fire Safety Certificate",
+      "description": "Valid fire safety certificate issued by the Chief Fire Officer of the district",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "LAND_DOCUMENT",
+      "name": "Land Ownership / Lease Document",
+      "description": "Registered land documents proving ownership or long-term lease (min 30 years)",
+      "required": true,
+      "validity_period_months": null
+    },
+    {
+      "doc_type": "BUILDING_PLAN",
+      "name": "Approved Building Plan",
+      "description": "Building plan approved by the local municipal authority with completion / occupancy certificate",
+      "required": true,
+      "validity_period_months": null
+    },
+    {
+      "doc_type": "FACULTY_LIST",
+      "name": "Faculty Details and Approval List",
+      "description": "List of all approved faculty members with qualifications, Aadhaar, and appointment details",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "FINANCIAL_STATEMENT",
+      "name": "Audited Financial Statement",
+      "description": "Audited statement of accounts for the previous financial year certified by a Chartered Accountant",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "EOA_CERTIFICATE",
+      "name": "Previous Year EOA Certificate",
+      "description": "Extension of Approval letter / certificate for the preceding academic year",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "UNDERTAKING",
+      "name": "Undertaking by Governing Body",
+      "description": "Undertaking by the Chairman / Secretary of the governing body on compliance",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "FEE_RECEIPT",
+      "name": "AICTE Processing Fee Receipt",
+      "description": "Receipt of payment of processing fee to AICTE for the current application cycle",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "ANTI_RAGGING",
+      "name": "Anti-Ragging Compliance Certificate",
+      "description": "Anti-ragging affidavit and compliance certificate as per UGC regulations",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "INFRASTRUCTURE_REPORT",
+      "name": "Infrastructure Compliance Report",
+      "description": "Self-disclosure report on infrastructure, labs, library, and computing facilities",
+      "required": true,
+      "validity_period_months": 12
+    }
+  ],
+  "required_fields": [
+    {
+      "field_name": "institution_name",
+      "display_name": "Institution Name",
+      "type": "string",
+      "required": true,
+      "description": "Official name of the institution as registered with AICTE"
+    },
+    {
+      "field_name": "aicte_id",
+      "display_name": "AICTE Permanent ID",
+      "type": "string",
+      "required": true,
+      "pattern": "^[0-9]-[0-9]{7,10}$",
+      "description": "Unique permanent AICTE identification number"
+    },
+    {
+      "field_name": "university_affiliation",
+      "display_name": "Affiliating University",
+      "type": "string",
+      "required": true,
+      "description": "Name of the affiliating university"
+    },
+    {
+      "field_name": "address",
+      "display_name": "Institution Address",
+      "type": "string",
+      "required": true,
+      "description": "Complete postal address of the institution"
+    },
+    {
+      "field_name": "state",
+      "display_name": "State / UT",
+      "type": "string",
+      "required": true,
+      "description": "State or Union Territory where institution is located"
+    },
+    {
+      "field_name": "city",
+      "display_name": "City / District",
+      "type": "string",
+      "required": true,
+      "description": "City or district name"
+    },
+    {
+      "field_name": "pin_code",
+      "display_name": "PIN Code",
+      "type": "string",
+      "required": true,
+      "pattern": "^[1-9][0-9]{5}$",
+      "description": "6-digit postal PIN code"
+    },
+    {
+      "field_name": "programmes",
+      "display_name": "Approved Programmes",
+      "type": "list",
+      "required": true,
+      "description": "List of AICTE-approved programmes with intake and level"
+    },
+    {
+      "field_name": "total_intake",
+      "display_name": "Total Sanctioned Intake",
+      "type": "integer",
+      "required": true,
+      "description": "Total approved student intake across all programmes"
+    },
+    {
+      "field_name": "faculty_count",
+      "display_name": "Total Faculty Count",
+      "type": "integer",
+      "required": true,
+      "description": "Number of approved full-time faculty members"
+    },
+    {
+      "field_name": "principal_name",
+      "display_name": "Principal / Director Name",
+      "type": "string",
+      "required": true,
+      "description": "Full name of the head of the institution"
+    },
+    {
+      "field_name": "governing_body_chairman",
+      "display_name": "Chairman of Governing Body",
+      "type": "string",
+      "required": true,
+      "description": "Name of the chairman of the institution's governing body"
+    },
+    {
+      "field_name": "trust_society_name",
+      "display_name": "Trust / Society Name",
+      "type": "string",
+      "required": true,
+      "description": "Name of the sponsoring trust or society"
+    },
+    {
+      "field_name": "academic_year",
+      "display_name": "Academic Year",
+      "type": "string",
+      "required": true,
+      "pattern": "^[0-9]{4}-[0-9]{2,4}$",
+      "description": "Academic year for which approval is sought (e.g. 2025-26)"
+    },
+    {
+      "field_name": "previous_eoa_date",
+      "display_name": "Previous EOA Letter Date",
+      "type": "date",
+      "required": true,
+      "description": "Date of the previous year's Extension of Approval letter"
+    },
+    {
+      "field_name": "land_area_acres",
+      "display_name": "Total Land Area (acres)",
+      "type": "float",
+      "required": true,
+      "description": "Total campus land area in acres"
+    },
+    {
+      "field_name": "built_up_area_sqft",
+      "display_name": "Built-up Area (sq. ft.)",
+      "type": "float",
+      "required": true,
+      "description": "Total built-up / carpet area available in square feet"
+    },
+    {
+      "field_name": "contact_email",
+      "display_name": "Contact Email",
+      "type": "string",
+      "required": true,
+      "description": "Official contact email address of the institution"
+    },
+    {
+      "field_name": "contact_phone",
+      "display_name": "Contact Phone",
+      "type": "string",
+      "required": true,
+      "description": "Official contact phone number"
+    }
+  ],
+  "compliance_rules": [
+    {
+      "rule_name": "min_faculty_ratio",
+      "display_name": "Minimum Faculty-Student Ratio",
+      "category": "Faculty",
+      "required_value": "1:20",
+      "description": "Faculty to student ratio must not exceed 1:20",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "min_land_area_acres",
+      "display_name": "Minimum Land Area",
+      "category": "Infrastructure",
+      "required_value": "2.5",
+      "unit": "acres",
+      "description": "Minimum 2.5 acres of land for engineering colleges outside metropolitan cities",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "min_built_up_area_sqft",
+      "display_name": "Minimum Built-up Area",
+      "category": "Infrastructure",
+      "required_value": "15000",
+      "unit": "sq. ft.",
+      "description": "Minimum built-up area based on number of programmes and intake",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "fire_safety_required",
+      "display_name": "Fire Safety Compliance",
+      "category": "Safety",
+      "required_value": "true",
+      "description": "Valid fire safety certificate from the Chief Fire Officer is mandatory",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "nba_accreditation_recommended",
+      "display_name": "NBA Accreditation",
+      "category": "Accreditation",
+      "required_value": "recommended",
+      "description": "NBA accreditation is recommended for programmes older than 5 years",
+      "severity": "MEDIUM"
+    },
+    {
+      "rule_name": "min_library_books",
+      "display_name": "Minimum Library Books",
+      "category": "Infrastructure",
+      "required_value": "5000",
+      "unit": "titles",
+      "description": "Minimum library collection of books and titles per programme",
+      "severity": "MEDIUM"
+    },
+    {
+      "rule_name": "min_computer_student_ratio",
+      "display_name": "Computer-Student Ratio",
+      "category": "Infrastructure",
+      "required_value": "1:4",
+      "description": "Minimum one computer for every 4 students",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "anti_ragging_compliance",
+      "display_name": "Anti-Ragging Measures",
+      "category": "Compliance",
+      "required_value": "true",
+      "description": "Institution must comply with UGC anti-ragging regulations",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "fee_refund_policy",
+      "display_name": "Fee Refund Policy",
+      "category": "Compliance",
+      "required_value": "true",
+      "description": "Institution must follow AICTE-approved fee refund policy",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "disabled_friendly_infrastructure",
+      "display_name": "Disabled-Friendly Infrastructure",
+      "category": "Infrastructure",
+      "required_value": "true",
+      "description": "Campus must have ramps, elevators, and facilities for differently-abled persons",
+      "severity": "MEDIUM"
+    },
+    {
+      "rule_name": "aishe_registration",
+      "display_name": "AISHE Registration",
+      "category": "Compliance",
+      "required_value": "true",
+      "description": "Institution must be registered on the All India Survey on Higher Education portal",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "mandatory_disclosure",
+      "display_name": "Mandatory Disclosure on Website",
+      "category": "Compliance",
+      "required_value": "true",
+      "description": "Institution must publish mandatory disclosure on its official website",
+      "severity": "HIGH"
+    }
+  ]
+}

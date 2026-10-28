@@ -1,0 +1,355 @@
+{
+  "checklist_name": "New Institution Establishment",
+  "category": "NEW_INSTITUTION",
+  "version": "2025-26",
+  "description": "Checklist for new technical institution establishment applications under AICTE regulations. Requirements are more stringent than EOA.",
+  "required_documents": [
+    {
+      "doc_type": "AFFIDAVIT",
+      "name": "Affidavit on Stamp Paper",
+      "description": "Notarized affidavit on non-judicial stamp paper of minimum Rs. 100 as per prescribed format",
+      "required": true,
+      "validity_period_months": 6
+    },
+    {
+      "doc_type": "NOC",
+      "name": "State Government NOC",
+      "description": "No Objection Certificate from the State Government / UT Administration with specific approval for courses",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "TRUST_DEED",
+      "name": "Trust Deed / Society Registration",
+      "description": "Registered Trust Deed / Society Registration certificate / Company incorporation certificate",
+      "required": true,
+      "validity_period_months": null
+    },
+    {
+      "doc_type": "SOCIETY_REGISTRATION",
+      "name": "Society Registration Certificate",
+      "description": "Certificate of registration under the Societies Registration Act / Trust Act / Companies Act",
+      "required": true,
+      "validity_period_months": null
+    },
+    {
+      "doc_type": "LAND_DOCUMENT",
+      "name": "Land Ownership / Lease Document",
+      "description": "Registered sale deed or lease deed (minimum 30 years) in the name of the trust / society / company",
+      "required": true,
+      "validity_period_months": null
+    },
+    {
+      "doc_type": "BUILDING_PLAN",
+      "name": "Approved Building Plan",
+      "description": "Building plan approved by competent authority with detailed layout of classrooms, labs, library, admin block",
+      "required": true,
+      "validity_period_months": null
+    },
+    {
+      "doc_type": "FIRE_SAFETY_CERT",
+      "name": "Fire Safety Certificate",
+      "description": "Fire safety certificate from the Chief Fire Officer certifying compliance for the proposed building",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "FINANCIAL_STATEMENT",
+      "name": "Audited Financial Statement",
+      "description": "Audited balance sheet of the trust / society for the last 3 financial years, certified by a CA",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "UNDERTAKING",
+      "name": "Undertaking by Promoter / Trust",
+      "description": "Undertaking by the promoter / trust to comply with all AICTE norms including land, infrastructure, faculty",
+      "required": true,
+      "validity_period_months": 6
+    },
+    {
+      "doc_type": "FEE_RECEIPT",
+      "name": "AICTE Application Fee Receipt",
+      "description": "Receipt of non-refundable application processing fee paid to AICTE",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "INFRASTRUCTURE_REPORT",
+      "name": "Detailed Infrastructure Plan",
+      "description": "Detailed report on proposed infrastructure including labs, workshops, computing facilities, library, hostels",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "ANTI_RAGGING",
+      "name": "Anti-Ragging Undertaking",
+      "description": "Affidavit from the promoter body confirming anti-ragging measures as per UGC guidelines",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "FACULTY_LIST",
+      "name": "Proposed Faculty Recruitment Plan",
+      "description": "Detailed recruitment plan for faculty with proposed qualifications meeting AICTE norms",
+      "required": true,
+      "validity_period_months": 12
+    },
+    {
+      "doc_type": "NOC",
+      "name": "University Affiliation Letter",
+      "description": "Letter of intent / NOC from the affiliating university for proposed courses",
+      "required": true,
+      "validity_period_months": 12
+    }
+  ],
+  "required_fields": [
+    {
+      "field_name": "institution_name",
+      "display_name": "Proposed Institution Name",
+      "type": "string",
+      "required": true,
+      "description": "Proposed name of the new institution"
+    },
+    {
+      "field_name": "promoter_name",
+      "display_name": "Promoter / Trust Name",
+      "type": "string",
+      "required": true,
+      "description": "Name of the sponsoring trust, society, or Section 8 company"
+    },
+    {
+      "field_name": "promoter_chairman",
+      "display_name": "Chairman / President of Promoter Body",
+      "type": "string",
+      "required": true,
+      "description": "Full name of the chairman or president of the promoter body"
+    },
+    {
+      "field_name": "university_affiliation",
+      "display_name": "Proposed Affiliating University",
+      "type": "string",
+      "required": true,
+      "description": "University from which affiliation is sought"
+    },
+    {
+      "field_name": "address",
+      "display_name": "Proposed Institution Address",
+      "type": "string",
+      "required": true,
+      "description": "Complete address of the proposed site"
+    },
+    {
+      "field_name": "state",
+      "display_name": "State / UT",
+      "type": "string",
+      "required": true,
+      "description": "State or Union Territory of the proposed institution"
+    },
+    {
+      "field_name": "city",
+      "display_name": "City / District",
+      "type": "string",
+      "required": true,
+      "description": "City or district of the proposed location"
+    },
+    {
+      "field_name": "pin_code",
+      "display_name": "PIN Code",
+      "type": "string",
+      "required": true,
+      "pattern": "^[1-9][0-9]{5}$",
+      "description": "6-digit postal PIN code of the proposed site"
+    },
+    {
+      "field_name": "proposed_programmes",
+      "display_name": "Proposed Programmes",
+      "type": "list",
+      "required": true,
+      "description": "List of proposed programmes with course name, level, duration, and intake"
+    },
+    {
+      "field_name": "total_proposed_intake",
+      "display_name": "Total Proposed Intake",
+      "type": "integer",
+      "required": true,
+      "description": "Total proposed student intake across all programmes"
+    },
+    {
+      "field_name": "proposed_faculty_count",
+      "display_name": "Proposed Faculty Count",
+      "type": "integer",
+      "required": true,
+      "description": "Number of faculty proposed to be recruited before commencement"
+    },
+    {
+      "field_name": "land_area_acres",
+      "display_name": "Total Land Area (acres)",
+      "type": "float",
+      "required": true,
+      "description": "Total land area available at the proposed site in acres"
+    },
+    {
+      "field_name": "built_up_area_sqft",
+      "display_name": "Built-up Area (sq. ft.)",
+      "type": "float",
+      "required": true,
+      "description": "Total built-up area (ready or under construction) in square feet"
+    },
+    {
+      "field_name": "fdr_amount",
+      "display_name": "FDR Amount (INR)",
+      "type": "float",
+      "required": true,
+      "description": "Fixed Deposit Receipt amount in the name of the trust / society as per AICTE norms"
+    },
+    {
+      "field_name": "proposed_commencement_year",
+      "display_name": "Proposed Year of Commencement",
+      "type": "string",
+      "required": true,
+      "description": "Academic year in which the institution proposes to start admissions"
+    },
+    {
+      "field_name": "contact_email",
+      "display_name": "Contact Email",
+      "type": "string",
+      "required": true,
+      "description": "Official contact email of the promoter body"
+    },
+    {
+      "field_name": "contact_phone",
+      "display_name": "Contact Phone",
+      "type": "string",
+      "required": true,
+      "description": "Official contact phone number"
+    },
+    {
+      "field_name": "nearest_existing_institution_km",
+      "display_name": "Distance to Nearest AICTE Institution (km)",
+      "type": "float",
+      "required": true,
+      "description": "Distance in km to the nearest existing AICTE-approved institution"
+    }
+  ],
+  "compliance_rules": [
+    {
+      "rule_name": "min_faculty_ratio",
+      "display_name": "Minimum Faculty-Student Ratio",
+      "category": "Faculty",
+      "required_value": "1:15",
+      "description": "Faculty to student ratio must not exceed 1:15 for new institutions",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "min_land_area_acres",
+      "display_name": "Minimum Land Area",
+      "category": "Infrastructure",
+      "required_value": "5.0",
+      "unit": "acres",
+      "description": "Minimum 5 acres for engineering colleges; 2.5 acres within municipal limits of metropolitan cities",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "min_built_up_area_sqft",
+      "display_name": "Minimum Built-up Area",
+      "category": "Infrastructure",
+      "required_value": "25000",
+      "unit": "sq. ft.",
+      "description": "Minimum 25,000 sq. ft. built-up area ready before first admissions",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "fire_safety_required",
+      "display_name": "Fire Safety Compliance",
+      "category": "Safety",
+      "required_value": "true",
+      "description": "Valid fire safety certificate is mandatory before any admissions",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "min_fdr_amount_lakhs",
+      "display_name": "Minimum FDR Amount",
+      "category": "Financial",
+      "required_value": "150",
+      "unit": "lakhs INR",
+      "description": "Minimum FDR of Rs. 1.5 crore for engineering; Rs. 50 lakhs for management / pharmacy",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "promoter_net_worth",
+      "display_name": "Promoter Net Worth",
+      "category": "Financial",
+      "required_value": "500",
+      "unit": "lakhs INR",
+      "description": "Promoter trust / society must demonstrate minimum net worth",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "min_library_books",
+      "display_name": "Minimum Library Books",
+      "category": "Infrastructure",
+      "required_value": "8000",
+      "unit": "titles",
+      "description": "Minimum 8,000 titles for a new engineering college",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "min_computer_student_ratio",
+      "display_name": "Computer-Student Ratio",
+      "category": "Infrastructure",
+      "required_value": "1:2",
+      "description": "Minimum one computer for every 2 students for new institutions",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "anti_ragging_compliance",
+      "display_name": "Anti-Ragging Measures",
+      "category": "Compliance",
+      "required_value": "true",
+      "description": "Promoter must commit to full UGC anti-ragging compliance",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "disabled_friendly_infrastructure",
+      "display_name": "Disabled-Friendly Infrastructure",
+      "category": "Infrastructure",
+      "required_value": "true",
+      "description": "Building must include ramps, accessible toilets, elevators for differently-abled",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "building_completion_percentage",
+      "display_name": "Building Completion Percentage",
+      "category": "Infrastructure",
+      "required_value": "100",
+      "unit": "percent",
+      "description": "Building must be 100% complete with occupancy certificate before first admissions",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "no_existing_application_pending",
+      "display_name": "No Pending Applications",
+      "category": "Compliance",
+      "required_value": "true",
+      "description": "Promoter must not have any other pending or rejected application in the current cycle",
+      "severity": "HIGH"
+    },
+    {
+      "rule_name": "land_not_agricultural",
+      "display_name": "Non-Agricultural Land Use",
+      "category": "Land",
+      "required_value": "true",
+      "description": "Land must be converted to non-agricultural / institutional use with proper documentation",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_name": "mandatory_disclosure",
+      "display_name": "Mandatory Disclosure Commitment",
+      "category": "Compliance",
+      "required_value": "true",
+      "description": "Promoter must commit to publishing mandatory disclosure on institution website",
+      "severity": "HIGH"
+    }
+  ]
+}

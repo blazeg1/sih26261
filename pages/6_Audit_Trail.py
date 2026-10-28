@@ -44,15 +44,15 @@ with st.sidebar:
 render_aicte_brand_bar("Immutable Regulatory Audit Trail", "Statutory Logging & Cryptographic Traceability for Vigilance & CVC Compliance")
 
 # ── Filter Bar ─────────────────────────────────────────────────────────
-st.markdown("""
-<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:12px; padding:16px; margin-bottom:1.2rem; box-shadow:0 2px 8px rgba(11,31,75,0.04);">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <span style="font-size:0.75rem; font-weight:700; color:#0B1F4B; text-transform:uppercase;">AUDIT FILTERS</span>
-        <span style="font-size:0.72rem; background:#ECFDF5; color:#10B981; border:1px solid #A7F3D0; padding:2px 8px; border-radius:9999px; font-weight:700;">
-            ✓ CRYPTOGRAPHIC MERKLE ROOT INTACT
-        </span>
-    </div>
-""", unsafe_allow_html=True)
+st.markdown(
+    '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">'
+    '<span style="font-size:0.75rem; font-weight:700; color:#0B1F4B; text-transform:uppercase;">AUDIT FILTERS</span>'
+    '<span style="font-size:0.72rem; background:#ECFDF5; color:#10B981; border:1px solid #A7F3D0; padding:2px 8px; border-radius:9999px; font-weight:700;">'
+    '✓ CRYPTOGRAPHIC MERKLE ROOT INTACT'
+    '</span>'
+    '</div>',
+    unsafe_allow_html=True
+)
 
 conn = sqlite3.connect(DATABASE_PATH)
 audit_all = pd.read_sql_query("""
@@ -70,8 +70,6 @@ with af2:
     sel_actor = st.selectbox("Officer / System", actor_options)
 with af3:
     search_text = st.text_input("Search Logs / Evidence", placeholder="e.g. NOC or Aryabhatta")
-
-st.markdown("</div>", unsafe_allow_html=True)
 
 # Filter query
 filtered = audit_all.copy()

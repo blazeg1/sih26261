@@ -169,42 +169,30 @@ with col_cm:
     fn = metrics.get("false_negatives", 0)
     tn = metrics.get("true_negatives", 4)
 
-    st.markdown(f"""
-    <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:12px; padding:18px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-        <table style="width:100%; border-collapse:collapse; text-align:center; font-family:'Inter', sans-serif;">
-            <thead>
-                <tr>
-                    <th style="border:none; padding:8px;"></th>
-                    <th style="background:#0B1F4B; color:#FFFFFF; padding:10px; border-radius:6px 0 0 0; font-size:0.8rem;">Actual Defective (11)</th>
-                    <th style="background:#0B1F4B; color:#FFFFFF; padding:10px; border-radius:0 6px 0 0; font-size:0.8rem;">Actual Clean (4)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="font-weight:700; color:#0B1F4B; font-size:0.8rem; text-align:right; padding-right:12px;">Predicted Defective</td>
-                    <td style="background:#DCFCE7; border:2px solid #86EFAC; padding:16px; border-radius:6px; font-weight:800; font-size:1.4rem; color:#15803D;">
-                        {tp}<br><span style="font-size:0.7rem; font-weight:600; color:#166534;">TRUE POSITIVE (CAUGHT)</span>
-                    </td>
-                    <td style="background:#FEE2E2; border:2px solid #FCA5A5; padding:16px; border-radius:6px; font-weight:800; font-size:1.4rem; color:#B91C1C;">
-                        {fp}<br><span style="font-size:0.7rem; font-weight:600; color:#991B1B;">FALSE POSITIVE (FALSE ALARM)</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-weight:700; color:#0B1F4B; font-size:0.8rem; text-align:right; padding-right:12px;">Predicted Clean</td>
-                    <td style="background:#FEE2E2; border:2px solid #FCA5A5; padding:16px; border-radius:6px; font-weight:800; font-size:1.4rem; color:#B91C1C;">
-                        {fn}<br><span style="font-size:0.7rem; font-weight:600; color:#991B1B;">FALSE NEGATIVE (MISSED)</span>
-                    </td>
-                    <td style="background:#DCFCE7; border:2px solid #86EFAC; padding:16px; border-radius:6px; font-weight:800; font-size:1.4rem; color:#15803D;">
-                        {tn}<br><span style="font-size:0.7rem; font-weight:600; color:#166534;">TRUE NEGATIVE (CLEAN PASSED)</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div style="margin-top:12px; font-size:0.75rem; color:#64748B; text-align:center;">
-            100% Sensitivity (Recall) ensures zero non-compliant institutions slip past screening scrutiny.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    cm_html = (
+        f'<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:12px; padding:18px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">'
+        f'<table style="width:100%; border-collapse:collapse; text-align:center; font-family:\'Inter\', sans-serif;">'
+        f'<thead><tr><th style="border:none; padding:8px;"></th>'
+        f'<th style="background:#0B1F4B; color:#FFFFFF; padding:10px; border-radius:6px 0 0 0; font-size:0.8rem;">Actual Defective (11)</th>'
+        f'<th style="background:#0B1F4B; color:#FFFFFF; padding:10px; border-radius:0 6px 0 0; font-size:0.8rem;">Actual Clean (4)</th></tr></thead>'
+        f'<tbody>'
+        f'<tr><td style="font-weight:700; color:#0B1F4B; font-size:0.8rem; text-align:right; padding-right:12px;">Predicted Defective</td>'
+        f'<td style="background:#DCFCE7; border:2px solid #86EFAC; padding:16px; border-radius:6px; font-weight:800; font-size:1.4rem; color:#15803D;">'
+        f'{tp}<br><span style="font-size:0.7rem; font-weight:600; color:#166534;">TRUE POSITIVE (CAUGHT)</span></td>'
+        f'<td style="background:#FEE2E2; border:2px solid #FCA5A5; padding:16px; border-radius:6px; font-weight:800; font-size:1.4rem; color:#B91C1C;">'
+        f'{fp}<br><span style="font-size:0.7rem; font-weight:600; color:#991B1B;">FALSE POSITIVE (FALSE ALARM)</span></td></tr>'
+        f'<tr><td style="font-weight:700; color:#0B1F4B; font-size:0.8rem; text-align:right; padding-right:12px;">Predicted Clean</td>'
+        f'<td style="background:#FEE2E2; border:2px solid #FCA5A5; padding:16px; border-radius:6px; font-weight:800; font-size:1.4rem; color:#B91C1C;">'
+        f'{fn}<br><span style="font-size:0.7rem; font-weight:600; color:#991B1B;">FALSE NEGATIVE (MISSED)</span></td>'
+        f'<td style="background:#DCFCE7; border:2px solid #86EFAC; padding:16px; border-radius:6px; font-weight:800; font-size:1.4rem; color:#15803D;">'
+        f'{tn}<br><span style="font-size:0.7rem; font-weight:600; color:#166534;">TRUE NEGATIVE (CLEAN PASSED)</span></td></tr>'
+        f'</tbody></table>'
+        f'<div style="margin-top:12px; font-size:0.75rem; color:#64748B; text-align:center;">'
+        f'100% Sensitivity (Recall) ensures zero non-compliant institutions slip past screening scrutiny.'
+        f'</div>'
+        f'</div>'
+    )
+    st.markdown(cm_html, unsafe_allow_html=True)
 
 with col_chart:
     st.markdown("#### 📊 Evaluation Outcome Distribution")
@@ -276,37 +264,21 @@ if results_matrix:
         card_bg = "#FFFFFF"
         badge = "🟢 TRUE POSITIVE" if is_tp else "🔵 TRUE NEGATIVE" if is_tn else "🔴 MISCLASSIFICATION"
 
-        st.markdown(f"""
-        <div style="background:{card_bg}; border:1px solid {card_border}; border-left:4px solid {'#10B981' if (is_tp or is_tn) else '#EF4444'}; border-radius:10px; padding:12px 18px; margin-bottom:10px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                    <span style="font-size:0.75rem; font-weight:800; background:#0B1F4B; color:#FF9933; padding:2px 8px; border-radius:4px;">
-                        {row['case_id']}
-                    </span>
-                    <strong style="margin-left:8px; font-size:0.95rem; color:#0B1F4B;">{row['institution_name']}</strong>
-                </div>
-                <div style="font-size:0.8rem; font-weight:700;">
-                    {badge}
-                </div>
-            </div>
-            <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:12px; margin-top:8px; font-size:0.82rem; color:#334155;">
-                <div>
-                    <strong>Planted Ground Truth:</strong><br>
-                    <span style="color:#64748B;">{row['planted_issue']}</span>
-                </div>
-                <div>
-                    <strong>Primary Flag:</strong><br>
-                    <span style="font-family:monospace; color:#2563EB;">{row['primary_flag']}</span>
-                </div>
-                <div>
-                    <strong>Flags Detected:</strong><br>
-                    <span style="font-weight:700; color:{'#15803D' if row['detected_flags_count'] > 0 and not row['ground_truth_clean'] else '#0B1F4B'};">
-                        {row['detected_flags_count']} Alert(s)
-                    </span>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f'<div style="background:{card_bg}; border:1px solid {card_border}; border-left:4px solid {"#10B981" if (is_tp or is_tn) else "#EF4444"}; border-radius:10px; padding:12px 18px; margin-bottom:10px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">'
+            f'<div style="display:flex; justify-content:space-between; align-items:center;">'
+            f'<div><span style="font-size:0.75rem; font-weight:800; background:#0B1F4B; color:#FF9933; padding:2px 8px; border-radius:4px;">{row["case_id"]}</span>'
+            f'<strong style="margin-left:8px; font-size:0.95rem; color:#0B1F4B;">{row["institution_name"]}</strong></div>'
+            f'<div style="font-size:0.8rem; font-weight:700;">{badge}</div>'
+            f'</div>'
+            f'<div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:12px; margin-top:8px; font-size:0.82rem; color:#334155;">'
+            f'<div><strong>Planted Ground Truth:</strong><br><span style="color:#64748B;">{row["planted_issue"]}</span></div>'
+            f'<div><strong>Primary Flag:</strong><br><span style="font-family:monospace; color:#2563EB;">{row["primary_flag"]}</span></div>'
+            f'<div><strong>Flags Detected:</strong><br><span style="font-weight:700; color:{"#15803D" if row["detected_flags_count"] > 0 and not row["ground_truth_clean"] else "#0B1F4B"};">{row["detected_flags_count"]} Alert(s)</span></div>'
+            f'</div>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
 else:
     st.info("No evaluation results available.")
 

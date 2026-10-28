@@ -48,10 +48,12 @@ with st.sidebar:
 render_aicte_brand_bar("Scrutiny Analytics & Intelligence Dashboard", "Pan-India Regulatory Processing Velocity, Compliance Gauges & Anomaly Triage")
 
 # ── Filter Bar ─────────────────────────────────────────────────────────
-st.markdown("""
-<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:12px; padding:12px 18px; margin-bottom:1.2rem; box-shadow:0 2px 8px rgba(11,31,75,0.04);">
-    <div style="font-size:0.75rem; font-weight:700; color:#0B1F4B; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:6px;">DASHBOARD FILTERS</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    '<div style="font-size:0.75rem; font-weight:700; color:#0B1F4B; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:6px;">'
+    'DASHBOARD FILTERS'
+    '</div>',
+    unsafe_allow_html=True
+)
 
 fc1, fc2, fc3 = st.columns([4, 4, 2])
 with fc1:
@@ -62,8 +64,6 @@ with fc3:
     st.markdown("<div style='height:28px;'></div>", unsafe_allow_html=True)
     if st.button("🔄 Refresh Data", use_container_width=True):
         st.rerun()
-
-st.markdown("</div>", unsafe_allow_html=True)
 
 conn = sqlite3.connect(DATABASE_PATH)
 cursor = conn.cursor()

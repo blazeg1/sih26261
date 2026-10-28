@@ -178,4 +178,34 @@ CREATE TABLE IF NOT EXISTS audit_trail (
     timestamp TEXT NOT NULL,
     FOREIGN KEY (application_id) REFERENCES applications(id)
 );
+
+CREATE TABLE IF NOT EXISTS tasks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    application_id INTEGER,
+    title TEXT NOT NULL,
+    priority TEXT DEFAULT 'MEDIUM',
+    due_date TEXT,
+    status TEXT DEFAULT 'PENDING',
+    assigned_to TEXT,
+    notes TEXT DEFAULT '',
+    created_at TEXT NOT NULL,
+    FOREIGN KEY (application_id) REFERENCES applications(id)
+);
+
+CREATE TABLE IF NOT EXISTS infrastructure_evidence (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    application_id INTEGER NOT NULL,
+    facility_type TEXT NOT NULL,
+    title TEXT NOT NULL,
+    required_area_sqm REAL,
+    reported_area_sqm REAL,
+    geo_lat REAL,
+    geo_lng REAL,
+    ai_confidence REAL DEFAULT 0.95,
+    status TEXT DEFAULT 'VERIFIED',
+    image_url TEXT DEFAULT '',
+    notes TEXT DEFAULT '',
+    created_at TEXT NOT NULL,
+    FOREIGN KEY (application_id) REFERENCES applications(id)
+);
 """

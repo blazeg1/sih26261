@@ -1,0 +1,168 @@
+{
+  "edition": "AICTE Approval Process Handbook (APH 2024-2027)",
+  "effective_academic_year": "2024-25 onwards",
+  "statutory_authority": "All India Council for Technical Education, New Delhi",
+  "faculty_student_ratio": {
+    "ENGINEERING_UG": {
+      "prescribed_ratio": 15,
+      "max_acceptable_ratio": 20,
+      "clause": "APH 2024-27 Clause 2.3.1",
+      "cadre_ratio": [1, 2, 6],
+      "min_phd_percentage": 20.0,
+      "unverified_threshold": false
+    },
+    "ENGINEERING_PG": {
+      "prescribed_ratio": 12,
+      "max_acceptable_ratio": 15,
+      "clause": "APH 2024-27 Clause 2.3.2",
+      "cadre_ratio": [1, 2, 0],
+      "min_phd_percentage": 30.0,
+      "unverified_threshold": false
+    },
+    "MANAGEMENT_MBA": {
+      "prescribed_ratio": 12,
+      "max_acceptable_ratio": 15,
+      "clause": "APH 2024-27 Clause 2.3.3",
+      "cadre_ratio": [1, 2, 6],
+      "min_phd_percentage": 25.0,
+      "unverified_threshold": false
+    },
+    "PHARMACY": {
+      "prescribed_ratio": 15,
+      "max_acceptable_ratio": 15,
+      "clause": "APH 2024-27 Clause 2.3.5",
+      "cadre_ratio": [1, 2, 6],
+      "min_phd_percentage": 20.0,
+      "unverified_threshold": true,
+      "verification_note": "to verify against APH 2024-27 PCI joint norms"
+    },
+    "ARCHITECTURE": {
+      "prescribed_ratio": 10,
+      "max_acceptable_ratio": 10,
+      "clause": "APH 2024-27 Clause 2.3.6",
+      "cadre_ratio": [1, 2, 6],
+      "min_phd_percentage": 10.0,
+      "unverified_threshold": true,
+      "verification_note": "to verify against APH 2024-27 COA joint norms"
+    },
+    "DIPLOMA_POLYTECHNIC": {
+      "prescribed_ratio": 25,
+      "max_acceptable_ratio": 25,
+      "clause": "APH 2024-27 Clause 2.3.7",
+      "cadre_ratio": [1, 2, 6],
+      "min_phd_percentage": 0.0,
+      "unverified_threshold": false
+    }
+  },
+  "land_norms_acres": {
+    "MEGA_METRO": {
+      "min_acres": 1.5,
+      "clause": "APH 2024-27 Appendix 4 Table 4.1",
+      "cities": ["Delhi", "Mumbai", "Kolkata", "Chennai", "Bangalore", "Hyderabad"],
+      "unverified_threshold": false
+    },
+    "URBAN": {
+      "min_acres": 2.5,
+      "clause": "APH 2024-27 Appendix 4 Table 4.1",
+      "unverified_threshold": false
+    },
+    "RURAL": {
+      "min_acres": 7.5,
+      "clause": "APH 2024-27 Appendix 4 Table 4.1",
+      "unverified_threshold": false
+    }
+  },
+  "lease_norms": {
+    "min_years": 30,
+    "permissible_types": ["OWNED", "REGISTERED_GOVERNMENT_LEASE", "REGISTERED_TRUST_LEASE"],
+    "clause": "APH 2024-27 Clause 1.4.2",
+    "unverified_threshold": false
+  },
+  "builtup_area_norms": {
+    "sqm_per_student_intake": 4.5,
+    "min_classroom_carpet_sqm": 66.0,
+    "min_lab_carpet_sqm": 66.0,
+    "min_computer_center_sqm": 150.0,
+    "clause": "APH 2024-27 Clause 1.4.3",
+    "unverified_threshold": false
+  },
+  "safety_norms": {
+    "fire_noc_mandatory": true,
+    "max_acceptable_building_height_meters": 15.0,
+    "clause": "APH 2024-27 Clause 4.1.2",
+    "unverified_threshold": false
+  },
+  "accessibility_norms": {
+    "barrier_free_ramp_max_slope": "1:12",
+    "lift_mandatory_floors": 3,
+    "special_toilets_mandatory": true,
+    "clause": "APH 2024-27 Clause 4.5.1",
+    "unverified_threshold": false
+  },
+  "computing_norms": {
+    "students_per_terminal": 4,
+    "min_internet_bandwidth_mbps": 100,
+    "legal_software_mandatory": true,
+    "clause": "APH 2024-27 Clause 3.2.1",
+    "unverified_threshold": false
+  },
+  "intake_increase_conditions": {
+    "min_nba_accredited_percentage": 50.0,
+    "min_years_existence": 3,
+    "zero_deficiency_prior_year": true,
+    "clause": "APH 2024-27 Clause 2.14.3",
+    "unverified_threshold": false
+  },
+  "mandatory_documents": {
+    "EOA": [
+      "AFFIDAVIT",
+      "FIRE_SAFETY_CERT",
+      "FACULTY_LIST",
+      "FINANCIAL_STATEMENT"
+    ],
+    "NEW_INSTITUTION": [
+      "AFFIDAVIT",
+      "LAND_DOCUMENT",
+      "BUILDING_PLAN",
+      "FIRE_SAFETY_CERT",
+      "NOC",
+      "FINANCIAL_STATEMENT"
+    ],
+    "CHANGE_OF_SITE": [
+      "AFFIDAVIT",
+      "LAND_DOCUMENT",
+      "BUILDING_PLAN",
+      "NOC",
+      "FIRE_SAFETY_CERT"
+    ],
+    "ADD_PROGRAMME": [
+      "AFFIDAVIT",
+      "ACCREDITATION_CERT",
+      "NOC",
+      "FACULTY_LIST",
+      "BUILDING_PLAN"
+    ]
+  },
+  "statutory_committees": [
+    {
+      "name": "Anti-Ragging Committee",
+      "clause": "APH 2024-27 Clause 5.1.1",
+      "mandatory": true
+    },
+    {
+      "name": "Internal Complaints Committee (ICC/POSH)",
+      "clause": "APH 2024-27 Clause 5.2.1",
+      "mandatory": true
+    },
+    {
+      "name": "Student Grievance Redressal Committee (SGRC)",
+      "clause": "APH 2024-27 Clause 5.3.1",
+      "mandatory": true
+    },
+    {
+      "name": "SC/ST Prevention of Atrocities Committee",
+      "clause": "APH 2024-27 Clause 5.4.1",
+      "mandatory": true
+    }
+  ]
+}

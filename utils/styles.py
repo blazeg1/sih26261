@@ -22,13 +22,97 @@ def load_css() -> str:
 
 
 def apply_custom_styles():
-    """Inject centralized CSS and apply dark mode class if enabled."""
+    """Inject centralized CSS and apply dark mode overrides if enabled."""
     css_content = load_css()
     is_dark = st.session_state.get("dark_mode", False)
-    theme_class = "dark-theme" if is_dark else "light-theme"
+
+    dark_css = ""
+    if is_dark:
+        dark_css = """
+        html, body, .stApp, [data-testid="stAppViewContainer"], .main {
+            background-color: #070E1E !important;
+            background: #070E1E !important;
+            color: #F1F5F9 !important;
+        }
+        header[data-testid="stHeader"] {
+            background-color: #070E1E !important;
+        }
+        .kpi-card, .gov-card, .score-ring-box, .check-item, .alert-card, .aicte-hero-bar,
+        div[style*="background:#FFFFFF"], div[style*="background: #FFFFFF"],
+        div[style*="background:#F8FAFC"], div[style*="background: #F8FAFC"],
+        div[style*="background:white"] {
+            background: #0D1B36 !important;
+            border-color: #1E2E52 !important;
+            color: #F1F5F9 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+        }
+        h1, h2, h3, h4, h5, h6, .kpi-value, .sidebar-title, .aicte-title {
+            color: #FFFFFF !important;
+        }
+        .kpi-title, .step-label, .text-muted {
+            color: #94A3B8 !important;
+        }
+        .step-circle {
+            background: #0D1B36 !important;
+            border-color: #1E2E52 !important;
+            color: #94A3B8 !important;
+        }
+        .tracker-step.completed .step-circle {
+            background: #10B981 !important;
+            border-color: #10B981 !important;
+            color: #FFFFFF !important;
+        }
+        .tracker-step.active .step-circle {
+            background: #FF9933 !important;
+            border-color: #FF9933 !important;
+            color: #FFFFFF !important;
+        }
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="input"] > div,
+        input, textarea, select {
+            background-color: #0A152B !important;
+            color: #F8FAFC !important;
+            border-color: #1E2E52 !important;
+        }
+        div[data-testid="stDataFrame"], table {
+            background-color: #0D1B36 !important;
+            color: #F1F5F9 !important;
+            border-color: #1E2E52 !important;
+        }
+        th {
+            background-color: #070E1E !important;
+            color: #FFFFFF !important;
+        }
+        tr {
+            background-color: #0D1B36 !important;
+            border-bottom-color: #1E2E52 !important;
+        }
+        td {
+            color: #F1F5F9 !important;
+        }
+        div[data-testid="stExpander"] {
+            background-color: #0D1B36 !important;
+            border-color: #1E2E52 !important;
+            color: #F1F5F9 !important;
+        }
+        div[data-testid="stExpander"] summary {
+            color: #F1F5F9 !important;
+        }
+        div[style*="background:#EFF6FF"],
+        div[style*="background:#F0FDF4"],
+        div[style*="background:#FFFBEB"],
+        div[style*="background:#FEF2F2"] {
+            background: #0A172F !important;
+            color: #E2E8F0 !important;
+        }
+        div[data-testid="stSidebar"] {
+            background: linear-gradient(180deg, #050B17 0%, #0A1428 100%) !important;
+            border-right-color: #1E2E52 !important;
+        }
+        """
 
     st.markdown(
-        f'<style>\n{css_content}\n</style>\n<div id="theme-wrapper" class="{theme_class}"></div>',
+        f'<style>\n{css_content}\n{dark_css}\n</style>',
         unsafe_allow_html=True
     )
 
@@ -48,7 +132,7 @@ def render_gov_header():
 
 
 def render_aicte_brand_bar(title="Approval Validation Platform", subtitle="AI-Powered Decision Support System for Technical Institutions"):
-    """Render the main AICTE brand hero bar."""
+    """Render the main AICTE brand hero bar with synchronized Dark Mode toggle."""
     col_brand, col_theme = st.columns([8, 2])
     with col_brand:
         st.markdown(
@@ -63,11 +147,18 @@ def render_aicte_brand_bar(title="Approval Validation Platform", subtitle="AI-Po
             f'</div>',
             unsafe_allow_html=True
         )
+
     with col_theme:
-        dark_mode = st.toggle("🌙 Dark Mode", value=st.session_state.get("dark_mode", False), key="dark_mode_toggle")
-        if dark_mode != st.session_state.get("dark_mode", False):
-            st.session_state["dark_mode"] = dark_mode
-            st.rerun()
+        def _toggle_dark():
+            st.session_state["dark_mode"] = st.session_state["dark_mode_toggle_val"]
+
+        current_dark = st.session_state.get("dark_mode", False)
+        st.toggle(
+            "🌙 Dark Mode",
+            value=current_dark,
+            key="dark_mode_toggle_val",
+            on_change=_toggle_dark
+        )
 
     st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 

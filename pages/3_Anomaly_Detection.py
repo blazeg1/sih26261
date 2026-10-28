@@ -179,30 +179,31 @@ with tab_alerts:
             icon = "🚨" if sev in ("CRITICAL", "HIGH") else "⚠️" if sev == "MEDIUM" else "ℹ️"
             badge = status_badge_html("REJECTED" if sev in ("CRITICAL", "HIGH") else "UNDER_REVIEW" if sev == "MEDIUM" else "SUBMITTED")
 
-            st.markdown(f"""
-            <div class="alert-card {alert_class}">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span style="font-size:1.4rem;">{icon}</span>
-                        <div>
-                            <div style="font-size:0.92rem; font-weight:700; color:#0B1F4B;">
-                                {alert['alert_type'].replace('_', ' ')}
-                            </div>
-                            <div style="font-size:0.75rem; color:#64748B;">
-                                Alert Ref: #ALT-0{alert['id']} · Recorded: {alert['created_at']}
-                            </div>
-                        </div>
-                    </div>
-                    <div>{badge}</div>
-                </div>
-                <div style="margin:10px 0 6px 0; font-size:0.85rem; color:#1E293B; line-height:1.5;">
-                    {alert['description']}
-                </div>
-                <div style="background:rgba(0,0,0,0.03); border:1px solid #CBD5E1; border-radius:6px; padding:6px 12px; font-family:monospace; font-size:0.78rem; color:#334155;">
-                    <strong>Verbatim Evidence:</strong> {alert['evidence']}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(
+                f'<div class="alert-card {alert_class}">'
+                f'<div style="display:flex; justify-content:space-between; align-items:flex-start;">'
+                f'<div style="display:flex; align-items:center; gap:10px;">'
+                f'<span style="font-size:1.4rem;">{icon}</span>'
+                f'<div>'
+                f'<div style="font-size:0.92rem; font-weight:700; color:#0B1F4B;">'
+                f'{alert["alert_type"].replace("_", " ")}'
+                f'</div>'
+                f'<div style="font-size:0.75rem; color:#64748B;">'
+                f'Alert Ref: #ALT-0{alert["id"]} · Recorded: {alert["created_at"]}'
+                f'</div>'
+                f'</div>'
+                f'</div>'
+                f'<div>{badge}</div>'
+                f'</div>'
+                f'<div style="margin:10px 0 6px 0; font-size:0.85rem; color:#1E293B; line-height:1.5;">'
+                f'{alert["description"]}'
+                f'</div>'
+                f'<div style="background:rgba(0,0,0,0.03); border:1px solid #CBD5E1; border-radius:6px; padding:6px 12px; font-family:monospace; font-size:0.78rem; color:#334155;">'
+                f'<strong>Verbatim Evidence:</strong> {alert["evidence"]}'
+                f'</div>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
 
             c_resolve, _, _ = st.columns([2, 4, 4])
             with c_resolve:
@@ -284,61 +285,65 @@ with tab_multilevel:
                 with c_l1:
                     st.markdown("#### Level 1: Metadata & Expiry Forensics")
                     l1_stat = l1_res["status"]
-                    st.markdown(f"""
-                    <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <strong>Status:</strong> {status_badge_html('APPROVED' if l1_stat == 'Verified' else 'REJECTED')}
-                        </div>
-                    """, unsafe_allow_html=True)
-                    for f in l1_res["findings"]:
-                        st.markdown(f"- **{f['indicator']}**: {f['detail']} (`{f['evidence']}`)")
-                    st.markdown("</div>", unsafe_allow_html=True)
+                    bullets_l1 = "".join([f"<li><strong>{f['indicator']}</strong>: {f['detail']} (<code>{f['evidence']}</code>)</li>" for f in l1_res["findings"]])
+                    st.markdown(
+                        f'<div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">'
+                        f'<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">'
+                        f'<strong>Status:</strong> {status_badge_html("APPROVED" if l1_stat == "Verified" else "REJECTED")}'
+                        f'</div>'
+                        f'<ul style="margin:0; padding-left:18px; font-size:0.82rem; color:#334155;">{bullets_l1}</ul>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
 
                 with c_l2:
                     st.markdown("#### Level 2: Visual & Compression (ELA)")
                     l2_stat = l2_res["status"]
-                    st.markdown(f"""
-                    <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <strong>Status:</strong> {status_badge_html('APPROVED' if l2_stat == 'Verified' else 'UNDER_REVIEW')}
-                        </div>
-                    """, unsafe_allow_html=True)
-                    for f in l2_res["findings"]:
-                        st.markdown(f"- **{f['indicator']}**: {f['detail']} (`{f['evidence']}`)")
-                    st.markdown("</div>", unsafe_allow_html=True)
+                    bullets_l2 = "".join([f"<li><strong>{f['indicator']}</strong>: {f['detail']} (<code>{f['evidence']}</code>)</li>" for f in l2_res["findings"]])
+                    st.markdown(
+                        f'<div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">'
+                        f'<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">'
+                        f'<strong>Status:</strong> {status_badge_html("APPROVED" if l2_stat == "Verified" else "UNDER_REVIEW")}'
+                        f'</div>'
+                        f'<ul style="margin:0; padding-left:18px; font-size:0.82rem; color:#334155;">{bullets_l2}</ul>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
 
                 c_l3, c_l4 = st.columns(2)
                 with c_l3:
                     st.markdown("#### Level 3: Digital Signature & QR Codes")
                     l3_stat = l3_res["status"]
-                    st.markdown(f"""
-                    <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <strong>Status:</strong> {status_badge_html('APPROVED' if l3_stat == 'Verified' else 'UNDER_REVIEW')}
-                        </div>
-                    """, unsafe_allow_html=True)
-                    for f in l3_res["findings"]:
-                        st.markdown(f"- **{f['indicator']}**: {f['detail']} (`{f['evidence']}`)")
-                    st.markdown("</div>", unsafe_allow_html=True)
+                    bullets_l3 = "".join([f"<li><strong>{f['indicator']}</strong>: {f['detail']} (<code>{f['evidence']}</code>)</li>" for f in l3_res["findings"]])
+                    st.markdown(
+                        f'<div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">'
+                        f'<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">'
+                        f'<strong>Status:</strong> {status_badge_html("APPROVED" if l3_stat == "Verified" else "UNDER_REVIEW")}'
+                        f'</div>'
+                        f'<ul style="margin:0; padding-left:18px; font-size:0.82rem; color:#334155;">{bullets_l3}</ul>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
 
                 with c_l4:
                     st.markdown("#### Level 4: Simulated External Registry Query")
                     l4_stat = l4_res["status"]
-                    st.markdown(f"""
-                    <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <strong>Status:</strong> {status_badge_html('APPROVED' if l4_stat == 'Verified' else 'REJECTED')}
-                        </div>
-                        <div style="font-size:0.75rem; color:#B45309; background:#FEF3C7; padding:4px 8px; border-radius:4px; margin:6px 0;">
-                            ℹ️ {l4_res.get('simulation_notice', 'SIMULATED REGISTRY CONNECTOR')}
-                        </div>
-                        <p style="font-size:0.82rem; margin:6px 0;">
-                            <strong>Authority:</strong> {l4_res.get('authority')}<br>
-                            <strong>Protocol:</strong> {l4_res.get('connector_type')}<br>
-                            <strong>Advisory Result:</strong> {l4_res.get('advisory_message')}
-                        </p>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    st.markdown(
+                        f'<div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">'
+                        f'<div style="display:flex; justify-content:space-between; align-items:center;">'
+                        f'<strong>Status:</strong> {status_badge_html("APPROVED" if l4_stat == "Verified" else "REJECTED")}'
+                        f'</div>'
+                        f'<div style="font-size:0.75rem; color:#B45309; background:#FEF3C7; padding:4px 8px; border-radius:4px; margin:8px 0;">'
+                        f'ℹ️ {l4_res.get("simulation_notice", "SIMULATED REGISTRY CONNECTOR")}'
+                        f'</div>'
+                        f'<p style="font-size:0.82rem; margin:6px 0; color:#334155;">'
+                        f'<strong>Authority:</strong> {l4_res.get("authority")}<br>'
+                        f'<strong>Protocol:</strong> {l4_res.get("connector_type")}<br>'
+                        f'<strong>Advisory Result:</strong> {l4_res.get("advisory_message")}'
+                        f'</p>'
+                        f'</div>',
+                        unsafe_allow_html=True
+                    )
 
     else:
         st.info("No documents uploaded for this application.")

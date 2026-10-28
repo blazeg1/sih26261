@@ -88,11 +88,13 @@ with tab_upload:
     col_form, col_preview = st.columns([5, 5])
 
     with col_form:
-        st.markdown("""
-        <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:16px; padding:20px; box-shadow:0 4px 15px rgba(11,31,75,0.05); margin-bottom:1.2rem;">
-            <div style="font-size:0.75rem; font-weight:700; color:#FF9933; text-transform:uppercase; letter-spacing:0.8px;">STEP 1 · INSTITUTIONAL PROFILE</div>
-            <h4 style="margin:4px 0 12px 0; color:#0B1F4B;">Select or Register Technical Institute</h4>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            '<div style="margin-bottom:8px;">'
+            '<div style="font-size:0.75rem; font-weight:700; color:#FF9933; text-transform:uppercase; letter-spacing:0.8px;">STEP 1 · INSTITUTIONAL PROFILE</div>'
+            '<h4 style="margin:4px 0 12px 0; color:#0B1F4B;">Select or Register Technical Institute</h4>'
+            '</div>',
+            unsafe_allow_html=True
+        )
 
         # Fetch existing institutions
         conn = sqlite3.connect(DATABASE_PATH)
@@ -121,13 +123,15 @@ with tab_upload:
             new_address = st.text_area("Campus Address", placeholder="e.g. Knowledge Park III")
             new_year = st.number_input("Established Year", min_value=1900, max_value=2026, value=2010)
 
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 
-        st.markdown("""
-        <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:16px; padding:20px; box-shadow:0 4px 15px rgba(11,31,75,0.05); margin-bottom:1.2rem;">
-            <div style="font-size:0.75rem; font-weight:700; color:#FF9933; text-transform:uppercase; letter-spacing:0.8px;">STEP 2 · FILING SPECIFICATIONS</div>
-            <h4 style="margin:4px 0 12px 0; color:#0B1F4B;">Application Category & Academic Session</h4>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            '<div style="margin-bottom:8px;">'
+            '<div style="font-size:0.75rem; font-weight:700; color:#FF9933; text-transform:uppercase; letter-spacing:0.8px;">STEP 2 · FILING SPECIFICATIONS</div>'
+            '<h4 style="margin:4px 0 12px 0; color:#0B1F4B;">Application Category & Academic Session</h4>'
+            '</div>',
+            unsafe_allow_html=True
+        )
 
         ac1, ac2 = st.columns(2)
         with ac1:
@@ -141,14 +145,16 @@ with tab_upload:
         with ac2:
             academic_year = st.text_input("Academic Session *", value="2026-27")
 
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 
         # Document Upload Card
-        st.markdown("""
-        <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:16px; padding:20px; box-shadow:0 4px 15px rgba(11,31,75,0.05);">
-            <div style="font-size:0.75rem; font-weight:700; color:#FF9933; text-transform:uppercase; letter-spacing:0.8px;">STEP 3 · EVIDENCE DOCUMENTS</div>
-            <h4 style="margin:4px 0 12px 0; color:#0B1F4B;">Upload Institutional Supporting Documents</h4>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            '<div style="margin-bottom:8px;">'
+            '<div style="font-size:0.75rem; font-weight:700; color:#FF9933; text-transform:uppercase; letter-spacing:0.8px;">STEP 3 · EVIDENCE DOCUMENTS</div>'
+            '<h4 style="margin:4px 0 12px 0; color:#0B1F4B;">Upload Institutional Supporting Documents</h4>'
+            '</div>',
+            unsafe_allow_html=True
+        )
 
         uploaded_files = st.file_uploader(
             "Select PDF or Image Files (Multi-file enabled)",
@@ -157,26 +163,25 @@ with tab_upload:
             help="Supported: PDF, PNG, JPG, JPEG, TIFF (Max 50MB per file)",
         )
 
-        st.markdown("</div>", unsafe_allow_html=True)
-
     with col_preview:
-        st.markdown("""
-        <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:16px; padding:20px; box-shadow:0 4px 15px rgba(11,31,75,0.05); margin-bottom:1.2rem;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h4 style="margin:0; font-size:1rem; color:#0B1F4B;">📑 Mandatory Documents Checklist</h4>
-                <span style="font-size:0.7rem; background:#EFF6FF; color:#1D4ED8; font-weight:700; padding:2px 8px; border-radius:9999px;">APH 2024-27</span>
-            </div>
-            <p style="font-size:0.8rem; color:#64748B; margin:4px 0 12px 0;">Prescribed statutory documents for selected approval category</p>
-            <div style="font-size:0.82rem; line-height:1.7;">
-                • <strong style="color:#0B1F4B;">Affidavit in Format A</strong> (Duly notarized & stamped)<br>
-                • <strong style="color:#0B1F4B;">State Fire & Safety NOC</strong> (Valid certificate from Fire Directorate)<br>
-                • <strong style="color:#0B1F4B;">Land Title / Registry Deed</strong> (Clear title or 30-year lease)<br>
-                • <strong style="color:#0B1F4B;">Sanctioned Building & Floor Plan</strong> (Approved by municipal authority)<br>
-                • <strong style="color:#0B1F4B;">Audited Balance Sheet</strong> (Past 3 financial years)<br>
-                • <strong style="color:#0B1F4B;">Faculty Roster & Cadre List</strong> (SFR 1:15 compliance)
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            '<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:16px; padding:20px; box-shadow:0 4px 15px rgba(11,31,75,0.05); margin-bottom:1.2rem;">'
+            '<div style="display:flex; justify-content:space-between; align-items:center;">'
+            '<h4 style="margin:0; font-size:1rem; color:#0B1F4B;">📑 Mandatory Documents Checklist</h4>'
+            '<span style="font-size:0.7rem; background:#EFF6FF; color:#1D4ED8; font-weight:700; padding:2px 8px; border-radius:9999px;">APH 2024-27</span>'
+            '</div>'
+            '<p style="font-size:0.8rem; color:#64748B; margin:4px 0 12px 0;">Prescribed statutory documents for selected approval category</p>'
+            '<div style="font-size:0.82rem; line-height:1.7;">'
+            '• <strong style="color:#0B1F4B;">Affidavit in Format A</strong> (Duly notarized & stamped)<br>'
+            '• <strong style="color:#0B1F4B;">State Fire & Safety NOC</strong> (Valid certificate from Fire Directorate)<br>'
+            '• <strong style="color:#0B1F4B;">Land Title / Registry Deed</strong> (Clear title or 30-year lease)<br>'
+            '• <strong style="color:#0B1F4B;">Sanctioned Building & Floor Plan</strong> (Approved by municipal authority)<br>'
+            '• <strong style="color:#0B1F4B;">Audited Balance Sheet</strong> (Past 3 financial years)<br>'
+            '• <strong style="color:#0B1F4B;">Faculty Roster & Cadre List</strong> (SFR 1:15 compliance)'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True
+        )
 
         if uploaded_files:
             st.markdown(f"#### 🔍 Batch Pre-Processing ({len(uploaded_files)} files queued)")

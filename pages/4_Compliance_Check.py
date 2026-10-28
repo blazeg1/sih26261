@@ -110,15 +110,16 @@ score_color = "#10B981" if score >= 80 else "#F59E0B" if score >= 50 else "#EF44
 c_ring, c_p1, c_p2, c_p3 = st.columns([3, 2, 2, 2])
 
 with c_ring:
-    st.markdown(f"""
-    <div class="score-ring-box">
-        <div style="font-size:0.75rem; font-weight:700; color:#5B6B8A; text-transform:uppercase;">Overall Compliance</div>
-        <div class="score-number-big" style="color:{score_color};">{score:.1f}%</div>
-        <div style="font-size:0.75rem; color:{score_color}; font-weight:700;">
-            {'● High Regulatory Compliance' if score >= 80 else '● Deficit Notice Required'}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="score-ring-box">'
+        f'<div style="font-size:0.75rem; font-weight:700; color:#5B6B8A; text-transform:uppercase;">Overall Compliance</div>'
+        f'<div class="score-number-big" style="color:{score_color};">{score:.1f}%</div>'
+        f'<div style="font-size:0.75rem; color:{score_color}; font-weight:700;">'
+        f'{"● High Regulatory Compliance" if score >= 80 else "● Deficit Notice Required"}'
+        f'</div>'
+        f'</div>',
+        unsafe_allow_html=True
+    )
 
 with c_p1:
     st.metric("Total Rules Tested", result.get("total_rules", 18), delta="Handbook Norms")
@@ -152,22 +153,23 @@ for item in compliance_rules:
     icon = "✅" if is_comp else "⚠️" if is_part else "❌"
     badge = status_badge_html(item["status"])
 
-    st.markdown(f"""
-    <div class="check-item {check_class}">
-        <div style="display:flex; align-items:center; gap:12px;">
-            <span style="font-size:1.2rem;">{icon}</span>
-            <div>
-                <div style="font-size:0.88rem; font-weight:700; color:#0B1F4B;">
-                    {item['rule']} <span style="font-size:0.75rem; color:#5B6B8A; font-weight:400;">({item['clause']})</span>
-                </div>
-                <div style="font-size:0.78rem; color:#64748B; margin-top:2px;">
-                    Prescribed: <strong>{item['prescribed']}</strong> · Submitted: <strong>{item['submitted']}</strong>
-                </div>
-            </div>
-        </div>
-        <div>{badge}</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="check-item {check_class}">'
+        f'<div style="display:flex; align-items:center; gap:12px;">'
+        f'<span style="font-size:1.2rem;">{icon}</span>'
+        f'<div>'
+        f'<div style="font-size:0.88rem; font-weight:700; color:#0B1F4B;">'
+        f'{item["rule"]} <span style="font-size:0.75rem; color:#5B6B8A; font-weight:400;">({item["clause"]})</span>'
+        f'</div>'
+        f'<div style="font-size:0.78rem; color:#64748B; margin-top:2px;">'
+        f'Prescribed: <strong>{item["prescribed"]}</strong> · Submitted: <strong>{item["submitted"]}</strong>'
+        f'</div>'
+        f'</div>'
+        f'</div>'
+        f'<div>{badge}</div>'
+        f'</div>',
+        unsafe_allow_html=True
+    )
 
 # ── Save Compliance Audit Action ───────────────────────────────────────
 st.markdown("---")

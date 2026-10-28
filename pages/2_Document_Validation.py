@@ -150,20 +150,21 @@ if docs_df.empty:
 doc_cols = st.columns(min(len(docs_df), 4))
 for idx, (_, doc) in enumerate(docs_df.iterrows()):
     with doc_cols[idx % 4]:
-        st.markdown(f"""
-        <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.03);">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <strong style="font-size:0.85rem; color:#0B1F4B;">{doc['doc_type']}</strong>
-                {status_badge_html(doc.get('validation_status', 'VALID'))}
-            </div>
-            <div style="font-size:0.78rem; color:#475569; margin-top:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                📁 {doc['filename']}
-            </div>
-            <div style="font-size:0.72rem; color:#64748B; margin-top:4px;">
-                Expiry: <strong>{doc.get('expiry_date') or '2028-06-30'}</strong>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f'<div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.03);">'
+            f'<div style="display:flex; justify-content:space-between; align-items:center;">'
+            f'<strong style="font-size:0.85rem; color:#0B1F4B;">{doc["doc_type"]}</strong>'
+            f'{status_badge_html(doc.get("validation_status", "VALID"))}'
+            f'</div>'
+            f'<div style="font-size:0.78rem; color:#475569; margin-top:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">'
+            f'📁 {doc["filename"]}'
+            f'</div>'
+            f'<div style="font-size:0.72rem; color:#64748B; margin-top:4px;">'
+            f'Expiry: <strong>{doc.get("expiry_date") or "2028-06-30"}</strong>'
+            f'</div>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
 
 # ── Step-by-Step Progress & Validation Trigger ────────────────────────
 st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
@@ -246,15 +247,16 @@ if cached_results and cached_summary:
 
     c_ring, c_m1, c_m2, c_m3 = st.columns([3, 2, 2, 2])
     with c_ring:
-        st.markdown(f"""
-        <div class="score-ring-box">
-            <div style="font-size:0.75rem; font-weight:700; color:#5B6B8A; text-transform:uppercase;">Overall Confidence</div>
-            <div class="score-number-big" style="color:{score_color};">{score:.0f}%</div>
-            <div style="font-size:0.75rem; color:{score_color}; font-weight:700;">
-                {'● High Confidence' if score >= 80 else '● Marginal Scrutiny Required' if score >= 50 else '● Deficiencies Detected'}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="score-ring-box">'
+            f'<div style="font-size:0.75rem; font-weight:700; color:#5B6B8A; text-transform:uppercase;">Overall Confidence</div>'
+            f'<div class="score-number-big" style="color:{score_color};">{score:.0f}%</div>'
+            f'<div style="font-size:0.75rem; color:{score_color}; font-weight:700;">'
+            f'{"● High Confidence" if score >= 80 else "● Marginal Scrutiny Required" if score >= 50 else "● Deficiencies Detected"}'
+            f'</div>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
 
     with c_m1:
         st.metric("Passed Checks", cached_summary.get("pass_count", 18), delta="Compliant")
@@ -279,22 +281,23 @@ if cached_results and cached_summary:
         icon = "✅" if is_pass else "❌" if is_fail else "⚠️"
         badge = status_badge_html("APPROVED" if is_pass else "REJECTED" if is_fail else "UNDER_REVIEW")
 
-        st.markdown(f"""
-        <div class="check-item {check_class}">
-            <div style="display:flex; align-items:center; gap:12px;">
-                <span style="font-size:1.2rem;">{icon}</span>
-                <div>
-                    <div style="font-size:0.88rem; font-weight:700; color:#0B1F4B;">
-                        {r.get('rule_name', 'Validation Rule')}
-                    </div>
-                    <div style="font-size:0.78rem; color:#5B6B8A; margin-top:2px;">
-                        {r.get('message', '')} · <span style="font-family:monospace; color:#2563EB;">{r.get('evidence', '')}</span>
-                    </div>
-                </div>
-            </div>
-            <div>{badge}</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="check-item {check_class}">'
+            f'<div style="display:flex; align-items:center; gap:12px;">'
+            f'<span style="font-size:1.2rem;">{icon}</span>'
+            f'<div>'
+            f'<div style="font-size:0.88rem; font-weight:700; color:#0B1F4B;">'
+            f'{r.get("rule_name", "Validation Rule")}'
+            f'</div>'
+            f'<div style="font-size:0.78rem; color:#5B6B8A; margin-top:2px;">'
+            f'{r.get("message", "")} · <span style="font-family:monospace; color:#2563EB;">{r.get("evidence", "")}</span>'
+            f'</div>'
+            f'</div>'
+            f'</div>'
+            f'<div>{badge}</div>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
 
     # ── Evidence Inspection & Visualizer ────────────────────────────
     st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)

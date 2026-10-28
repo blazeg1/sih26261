@@ -1,353 +1,331 @@
 """
-PRAMAAN — प्रमाण से विश्वास
-Institutional Verification & Regulatory Compliance Intelligence Platform
-AICTE / Ministry of Education, Government of India.
+AICTE Approval Validation Platform — Main Application Entry Point.
+
+SIH 26261: AI-Powered Application Validation, Document Authentication
+and Regulatory Compliance Verification.
 """
 
 import os
 import sys
 import sqlite3
 from pathlib import Path
+from datetime import datetime
 
 import streamlit as st
 import pandas as pd
 
-# Ensure project root is in sys.path
+# Ensure project root is on the path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from config.settings import APP_TITLE, APP_ICON, DATABASE_PATH, UPLOAD_DIR
 from database.db import DatabaseManager
 from database.seed_data import seed_database
-from utils.auth import login_form, check_auth, get_current_user, logout
+from utils.auth import check_auth, get_current_user, logout, render_login_page
 from utils.helpers import ensure_dir
-from utils.theme import apply_pramaan_theme, render_top_gov_banner, render_pramaan_header, render_sahayak_copilot
+from utils.styles import (
+    apply_custom_styles,
+    render_gov_header,
+    render_aicte_brand_bar,
+    render_sidebar_header,
+    render_kpi_card,
+    render_sih_footer,
+    status_badge_html
+)
 
 # ── Page Configuration ─────────────────────────────────────────────────
 st.set_page_config(
-    page_title="PRAMAAN — AICTE Regulatory Compliance Intelligence Platform",
-    page_icon="🏛️",
+    page_title=f"{APP_TITLE} — SIH 2026",
+    page_icon=APP_ICON,
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# ── Inject PRAMAAN Theme ───────────────────────────────────────────────
-apply_pramaan_theme()
+# ── Apply Centralized Styling & Dark Mode Support ───────────────────────
+apply_custom_styles()
 
-# ── Initialize Database & Seed ─────────────────────────────────────────
+# ── Initialize Database & Directories ──────────────────────────────────
 @st.cache_resource
-def init_pramaan_app():
-    """Ensure database and seed data are ready."""
+def init_app():
+    """Initialize the application: create database and seed data."""
     ensure_dir(os.path.dirname(DATABASE_PATH))
     ensure_dir(UPLOAD_DIR)
     db = DatabaseManager(DATABASE_PATH)
     db.init_db()
-    seed_database(DATABASE_PATH, force=False)
+    seed_database(DATABASE_PATH)
     return True
 
-init_pramaan_app()
+init_app()
 
-# Auto-login demo user if not logged in
+# Render Top Gov Header Strip
+render_gov_header()
+
+# ── Authentication Flow ────────────────────────────────────────────────
 if not check_auth():
-    st.session_state["user"] = {
-        "username": "rajeshwar.pant",
-        "full_name": "Dr. Rajeshwar Pant",
-        "role": "ADMIN",
-        "department": "Bureau of Approval & Regulatory Compliance",
-    }
+    render_login_page()
+    render_sih_footer()
+    st.stop()
 
+# User is authenticated
 user = get_current_user()
 
-# ── Sidebar: Operational Modules ───────────────────────────────────────
+# ── Sidebar ────────────────────────────────────────────────────────────
 with st.sidebar:
+    render_sidebar_header(user)
+
+    st.markdown("<p style='font-size:0.7rem; font-weight:700; color:#94A3B8; text-transform:uppercase; letter-spacing:0.8px; margin:1rem 0 0.5rem 0;'>MODULE NAVIGATION</p>", unsafe_allow_html=True)
     st.markdown("""
-    <div style="display:flex; align-items:center; gap:10px; padding: 10px 0 16px 0; border-bottom: 1px solid #1E293B;">
-        <span style="font-size:2rem;">🏛️</span>
-        <div>
-            <div style="font-size:1.15rem; font-weight:800; color:#F8FAFC; letter-spacing:-0.5px;">PRAMAAN</div>
-            <div style="font-size:0.7rem; color:#60A5FA; font-weight:600;">AICTE REGULATORY PLATFORM</div>
-        </div>
+    <div style="background:rgba(255,153,51,0.18); border-left:4px solid #FF9933; border-radius:8px; padding:8px 12px; margin-bottom:8px; font-weight:700; color:#FFFFFF; display:flex; justify-content:space-between; align-items:center;">
+        <span>🏠 Home Overview</span>
+        <span style="font-size:0.65rem; background:#FF9933; color:#0B1F4B; font-weight:800; padding:1px 6px; border-radius:4px;">ACTIVE</span>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<p style='font-size:0.7rem; font-weight:700; color:#64748B; text-transform:uppercase; margin-top:1rem; letter-spacing:0.8px;'>OPERATIONAL MODULES (10 ACTIVE)</p>", unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="background:#2563EB; border-radius:8px; padding:8px 12px; margin-bottom:4px; font-weight:600; color:white; display:flex; justify-content:space-between; align-items:center;">
-        <span>📊 Dashboard</span>
-        <span style="font-size:0.75rem; background:rgba(255,255,255,0.25); padding:1px 6px; border-radius:4px;">DESK</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="color:#CBD5E1; font-size:0.85rem; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
-        <span>📋 My Applications</span>
-        <span style="background:#334155; color:#94A3B8; font-size:0.7rem; padding:1px 6px; border-radius:4px;">12</span>
-    </div>
-    <div style="color:#CBD5E1; font-size:0.85rem; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
-        <span>🔍 Document Intelligence</span>
-        <span style="background:#1E3A8A; color:#93C5FD; font-size:0.7rem; padding:1px 6px; border-radius:4px;">OCR</span>
-    </div>
-    <div style="color:#CBD5E1; font-size:0.85rem; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
-        <span>🔗 Source Verification</span>
-        <span style="background:#064E3B; color:#6EE7B7; font-size:0.7rem; padding:1px 6px; border-radius:4px;">DIGILOCKER</span>
-    </div>
-    <div style="color:#CBD5E1; font-size:0.85rem; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
-        <span>⚖️ Compliance Review</span>
-        <span style="background:#334155; color:#94A3B8; font-size:0.7rem; padding:1px 6px; border-radius:4px;">7</span>
-    </div>
-    <div style="color:#CBD5E1; font-size:0.85rem; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
-        <span>🏗️ Infrastructure Review</span>
-        <span style="background:#78350F; color:#FDE68A; font-size:0.7rem; padding:1px 6px; border-radius:4px;">CV</span>
-    </div>
-    <div style="color:#CBD5E1; font-size:0.85rem; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
-        <span>🤖 AI-Assisted Findings</span>
-        <span style="background:#881337; color:#FDA4AF; font-size:0.7rem; padding:1px 6px; border-radius:4px;">4 FLAG</span>
-    </div>
-    <div style="color:#CBD5E1; font-size:0.85rem; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
-        <span>⏱️ Review Queue</span>
-        <span style="background:#7F1D1D; color:#FECACA; font-size:0.7rem; padding:1px 6px; border-radius:4px;">2 CRITICAL</span>
-    </div>
-    <div style="color:#CBD5E1; font-size:0.85rem; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
-        <span>📝 Audit Trail</span>
-        <span style="background:#334155; color:#94A3B8; font-size:0.7rem; padding:1px 6px; border-radius:4px;">17</span>
-    </div>
-    <div style="color:#CBD5E1; font-size:0.85rem; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
-        <span>📈 Analytics & Reports</span>
-        <span style="background:#334155; color:#94A3B8; font-size:0.7rem; padding:1px 6px; border-radius:4px;">PLOTLY</span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.caption("Use the sidebar pages menu above to navigate through Application Upload, Document Validation, Anomaly Detection, Compliance Check, Dashboard, and Audit Trail.")
 
     st.markdown("---")
-    if st.button("🚪 Sign Out", use_container_width=True):
+    if st.button("🚪 Sign Out", use_container_width=True, type="secondary"):
         logout()
         st.rerun()
 
 # ── Main Content Area ──────────────────────────────────────────────────
-render_top_gov_banner()
-render_pramaan_header(user)
-render_sahayak_copilot()
+render_aicte_brand_bar("Approval Validation Platform", "AI-Powered Decision Support Tool for Application Processing & Scrutiny")
 
-# ── Operational Desk Welcome Banner ───────────────────────────────────
+# ── Key Metrics Function ───────────────────────────────────────────────
+def get_metrics():
+    """Fetch key metrics from the database."""
+    conn = sqlite3.connect(DATABASE_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM applications")
+    total_apps = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM documents")
+    total_docs = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM anomaly_alerts WHERE is_resolved = 0")
+    active_anomalies = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM compliance_checks WHERE status = 'COMPLIANT'")
+    compliant = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(*) FROM compliance_checks")
+    total_checks = cursor.fetchone()[0]
+    compliance_rate = round((compliant / max(total_checks, 1)) * 100, 1)
+
+    conn.close()
+    return total_apps, total_docs, active_anomalies, compliance_rate
+
+total_apps, total_docs, active_anomalies, compliance_rate = get_metrics()
+
+# ── Row 1: High-Contrast Modern KPI Cards (Task 4) ──────────────────────
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.markdown(
+        render_kpi_card(
+            title="Total Applications",
+            value=f"{total_apps:,}",
+            icon="📋",
+            variant="navy",
+            trend="+14% this cycle",
+            trend_type="up"
+        ),
+        unsafe_allow_html=True
+    )
+
+with col2:
+    st.markdown(
+        render_kpi_card(
+            title="Documents Processed",
+            value=f"{total_docs:,}",
+            icon="📄",
+            variant="teal",
+            trend="99.2% OCR confidence",
+            trend_type="up"
+        ),
+        unsafe_allow_html=True
+    )
+
+with col3:
+    st.markdown(
+        render_kpi_card(
+            title="Active Anomaly Alerts",
+            value=f"{active_anomalies}",
+            icon="🚨",
+            variant="danger" if active_anomalies > 0 else "navy",
+            trend=f"{active_anomalies} flags pending triage",
+            trend_type="danger" if active_anomalies > 0 else "up"
+        ),
+        unsafe_allow_html=True
+    )
+
+with col4:
+    st.markdown(
+        render_kpi_card(
+            title="APH Compliance Rate",
+            value=f"{compliance_rate}%",
+            icon="📈",
+            variant="saffron",
+            trend="+3.4% institutional pass",
+            trend_type="up"
+        ),
+        unsafe_allow_html=True
+    )
+
+st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
+
+# ── Row 2: Recent Applications Table with Status Badges (Task 5) ───────
 st.markdown("""
-<div style="background:white; border-radius:12px; padding:20px 24px; margin-bottom:1.5rem; border:1px solid #E2E8F0; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
+<div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:16px; padding:20px 24px; box-shadow:0 4px 20px rgba(11,31,75,0.06); margin-bottom:1.5rem;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <div>
-            <div style="font-size:0.75rem; font-weight:700; color:#2563EB; letter-spacing:0.8px; text-transform:uppercase;">
-                REGULATORY WORKSPACE · PRAMAAN Operational Desk
-            </div>
-            <div style="font-size:1.6rem; font-weight:800; color:#0F172A; margin: 4px 0 2px 0;">
-                Welcome back, Dr. Rajeshwar Pant
-            </div>
-            <div style="font-size:0.88rem; color:#64748B;">
-                Senior Scrutiny Officer · Bureau of Approval & Regulatory Compliance
-            </div>
+            <h3 style="margin:0; font-size:1.15rem; color:#0B1F4B; font-weight:700;">📋 Recent Applications Docket</h3>
+            <p style="margin:2px 0 0 0; color:#5B6B8A; font-size:0.8rem;">Real-time queue of institutional submissions undergoing AICTE scrutiny</p>
         </div>
-        <div style="text-align:right;">
-            <div style="font-size:0.72rem; color:#94A3B8; font-weight:700; text-transform:uppercase;">TODAY'S SCRUTINY STATUS</div>
-            <div style="display:inline-flex; align-items:center; gap:6px; color:#059669; font-weight:700; font-size:0.95rem; margin-top:2px;">
-                🟢 12 Active Case Dossiers in Jurisdiction
-            </div>
-        </div>
+        <span style="font-size:0.75rem; background:#F1F5F9; color:#475569; padding:4px 10px; border-radius:9999px; font-weight:600;">
+            Showing Latest 10 Cases
+        </span>
     </div>
-</div>
 """, unsafe_allow_html=True)
-
-# ── Hero Action Cards (Continue Last Case + Today's Triage Priorities) ──
-col_case, col_triage = st.columns([1, 1])
-
-with col_case:
-    st.markdown("""
-    <div class="hero-case-card" style="border-left: 4px solid #2563EB;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-            <div>
-                <div class="hero-case-tag">📑 CONTINUE LAST CASE · <span style="color:#64748B; font-weight:400;">Saved: 11:19:15 PM IST</span></div>
-                <div class="hero-case-title">APP-2026-1042 — Aryabhatta Institute of Technology</div>
-                <div class="hero-case-meta">Stage: <span style="background:#FEF3C7; color:#92400E; padding:2px 8px; border-radius:4px; font-weight:600;">Under Scrutiny</span> · 8 Documents Evaluated</div>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    if st.button("Resume Case →", key="btn_resume_hero", type="primary"):
-        st.session_state["selected_app_id"] = 1
-        st.info("Navigating to Application Dossier APP-2026-1042 (Aryabhatta Institute)... Select 'Document Intelligence' or 'Compliance Review' in the sidebar.")
-
-with col_triage:
-    st.markdown("""
-    <div class="hero-case-card" style="border-left: 4px solid #DC2626;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-            <div>
-                <div class="hero-case-tag" style="color:#DC2626;">⏰ TODAY'S TRIAGE PRIORITIES · <span style="color:#DC2626; font-weight:700;">2 Critical Items Due</span></div>
-                <div class="hero-case-title" style="font-size:1.05rem;">APP-2026-1042 Fire NOC check · APP-2026-1087 Rectification...</div>
-                <div class="hero-case-meta">4 total officer tasks pending statutory action before regulatory cut-off</div>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    if st.button("View Tasks (4)", key="btn_view_tasks"):
-        st.session_state["active_tab"] = "tasks"
-
-# ── Operational Workload & Priority Triage (6 Metric Cards) ───────────
-st.markdown("<p style='font-size:0.8rem; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin: 1.5rem 0 0.75rem 0;'>OPERATIONAL WORKLOAD & PRIORITY TRIAGE</p>", unsafe_allow_html=True)
 
 conn = sqlite3.connect(DATABASE_PATH)
 cursor = conn.cursor()
-
-# Query counts
-cursor.execute("SELECT COUNT(*) FROM applications")
-assigned_cases = cursor.fetchone()[0]
-
-cursor.execute("SELECT COUNT(*) FROM applications WHERE status = 'UNDER_REVIEW'")
-awaiting_review = cursor.fetchone()[0]
-
-cursor.execute("SELECT COUNT(*) FROM anomaly_alerts WHERE severity IN ('HIGH', 'CRITICAL') AND is_resolved = 0")
-high_attention = cursor.fetchone()[0]
-
-cursor.execute("SELECT COUNT(*) FROM verification_records")
-source_verifications = cursor.fetchone()[0]
-
-cursor.execute("SELECT COUNT(*) FROM tasks WHERE status = 'PENDING'")
-pending_tasks_count = cursor.fetchone()[0]
-
-cursor.execute("SELECT COUNT(*) FROM infrastructure_evidence WHERE status = 'FLAGGED'")
-inspection_flagged = cursor.fetchone()[0]
-
+cursor.execute("""
+    SELECT a.id, i.name, i.aicte_id, a.category, a.academic_year, a.status, a.submitted_at
+    FROM applications a
+    JOIN institutions i ON a.institution_id = i.id
+    ORDER BY a.submitted_at DESC
+    LIMIT 10
+""")
+rows = cursor.fetchall()
 conn.close()
 
-c1, c2, c3, c4, c5, c6 = st.columns(6)
+if rows:
+    # Convert to HTML table with color-coded status badges, zebra rows & hover highlight
+    table_rows_html = ""
+    for idx, r in enumerate(rows):
+        row_bg = "#FFFFFF" if idx % 2 == 0 else "#F8FAFC"
+        badge = status_badge_html(r[5])
+        sub_date = str(r[6])[:10] if r[6] else "2026-03-24"
+        table_rows_html += f"""
+        <tr style="background:{row_bg}; border-bottom:1px solid #E2E8F0; transition:background-color 0.2s ease;">
+            <td style="padding:12px 14px; font-weight:700; color:#0B1F4B;">APP-2026-{1000 + r[0]}</td>
+            <td style="padding:12px 14px; font-weight:600; color:#1E293B;">{r[1]}</td>
+            <td style="padding:12px 14px; color:#475569; font-family:monospace; font-size:0.85rem;">{r[2]}</td>
+            <td style="padding:12px 14px; color:#334155; font-size:0.85rem;">{r[3]}</td>
+            <td style="padding:12px 14px; color:#64748B; font-size:0.85rem;">{r[4]}</td>
+            <td style="padding:12px 14px;">{badge}</td>
+            <td style="padding:12px 14px; color:#64748B; font-size:0.82rem;">{sub_date}</td>
+        </tr>
+        """
 
-with c1:
     st.markdown(f"""
-    <div class="triage-card">
-        <div class="triage-label">ASSIGNED CASES</div>
-        <div class="triage-value">{assigned_cases}</div>
-        <div class="triage-sub">Full Jurisdiction</div>
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.88rem;">
+            <thead>
+                <tr style="background:#0B1F4B; color:#FFFFFF; border-top-left-radius:8px; border-top-right-radius:8px;">
+                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Dossier ID</th>
+                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Institution Name</th>
+                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">AICTE Permanent ID</th>
+                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Category</th>
+                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Academic Year</th>
+                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Scrutiny Status</th>
+                    <th style="padding:12px 14px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Submitted Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {table_rows_html}
+            </tbody>
+        </table>
     </div>
     """, unsafe_allow_html=True)
+else:
+    st.info("No applications found in the database. Please navigate to 'Application Upload' to ingest institutional records.")
 
-with c2:
-    st.markdown(f"""
-    <div class="triage-card">
-        <div class="triage-label">AWAITING MY REVIEW</div>
-        <div class="triage-value val-primary">{awaiting_review}</div>
-        <div class="triage-sub">Preliminary scrutiny</div>
-    </div>
-    """, unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
-with c3:
-    st.markdown(f"""
-    <div class="triage-card">
-        <div class="triage-label">CLARIFICATIONS / DEF.</div>
-        <div class="triage-value val-warning">1</div>
-        <div class="triage-sub">Institution responses</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with c4:
-    st.markdown(f"""
-    <div class="triage-card">
-        <div class="triage-label">HIGH ATTENTION</div>
-        <div class="triage-value val-danger">{high_attention}</div>
-        <div class="triage-sub">Statutory discrepancies</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with c5:
-    st.markdown(f"""
-    <div class="triage-card">
-        <div class="triage-label">SOURCE VERIFICATION</div>
-        <div class="triage-value val-success">{source_verifications}</div>
-        <div class="triage-sub">External API checks</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with c6:
-    st.markdown(f"""
-    <div class="triage-card">
-        <div class="triage-label">INSPECTION FLAGGED</div>
-        <div class="triage-value val-warning">{inspection_flagged}</div>
-        <div class="triage-sub">EVC physical visit</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-# ── Split Workspace: Dossier Docket vs Live Audit Activity ─────────────
-st.markdown("<br>", unsafe_allow_html=True)
-col_docket, col_audit = st.columns([7, 3])
-
-with col_docket:
-    tab_docket, tab_tasks = st.tabs([
-        f"📂 Assigned Applications Docket ({assigned_cases})",
-        f"⚡ Actionable Tasks ({pending_tasks_count} Pending) 🔴",
-    ])
-
-    with tab_docket:
-        conn = sqlite3.connect(DATABASE_PATH)
-        docket_df = pd.read_sql_query("""
-            SELECT a.id, 'APP-2026-' || (1000 + a.id) as case_id, i.name as institution, 
-                   i.state, a.category, a.academic_year, a.status,
-                   (SELECT COUNT(*) FROM anomaly_alerts aa WHERE aa.application_id = a.id AND aa.is_resolved = 0) as flags
-            FROM applications a
-            JOIN institutions i ON a.institution_id = i.id
-            ORDER BY a.id ASC
-            LIMIT 12
-        """, conn)
-        conn.close()
-
-        if not docket_df.empty:
-            docket_df.columns = ["DB ID", "Case Dossier", "Institution Name", "State", "Category", "Year", "Stage", "Active Flags"]
-            st.dataframe(docket_df, use_container_width=True, hide_index=True)
-        else:
-            st.info("No applications in docket.")
-
-    with tab_tasks:
-        conn = sqlite3.connect(DATABASE_PATH)
-        tasks_df = pd.read_sql_query("""
-            SELECT t.id, t.title, t.priority, t.due_date, t.status, t.notes
-            FROM tasks t
-            ORDER BY CASE t.priority WHEN 'CRITICAL' THEN 1 WHEN 'HIGH' THEN 2 ELSE 3 END
-        """, conn)
-        conn.close()
-
-        if not tasks_df.empty:
-            tasks_df.columns = ["Task ID", "Action Required", "Priority", "Due Date", "Status", "Notes"]
-            st.dataframe(tasks_df, use_container_width=True, hide_index=True)
-        else:
-            st.success("All officer tasks completed! 🎉")
-
-with col_audit:
-    st.markdown("""
-    <div style="background:white; border-radius:10px; border:1px solid #E2E8F0; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div style="font-size:0.75rem; font-weight:700; color:#0F172A; text-transform:uppercase; letter-spacing:0.5px;">RECENT REGULATORY ACTIVITY</div>
-            <span style="font-size:0.68rem; color:#059669; font-weight:600;">🟢 Live Stream</span>
-        </div>
-    """, unsafe_allow_html=True)
-
-    conn = sqlite3.connect(DATABASE_PATH)
-    recent_logs = pd.read_sql_query("""
-        SELECT action, actor, details, timestamp
-        FROM audit_trail
-        ORDER BY timestamp DESC
-        LIMIT 6
-    """, conn)
-    conn.close()
-
-    if not recent_logs.empty:
-        for _, log in recent_logs.iterrows():
-            st.markdown(f"""
-            <div style="border-bottom:1px solid #F1F5F9; padding:8px 0;">
-                <div style="font-size:0.78rem; font-weight:700; color:#1E293B;">{log['action']}</div>
-                <div style="font-size:0.72rem; color:#475569;">{log['details']}</div>
-                <div style="font-size:0.68rem; color:#94A3B8; margin-top:2px;">By {log['actor']}</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# ── Footer ─────────────────────────────────────────────────────────────
-st.markdown("---")
+# ── Row 3: Platform Scrutiny Architecture (Feature Cards) ──────────────
 st.markdown("""
-<div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:#64748B;">
-    <div>🏛️ <strong>PRAMAAN Platform</strong> · All India Council for Technical Education (AICTE), New Delhi</div>
-    <div>Strictly Confidential · For Authorized AICTE Scrutiny Officers Only</div>
+<div style="margin-bottom:12px;">
+    <h3 style="margin:0; font-size:1.15rem; color:#0B1F4B; font-weight:700;">🚀 Intelligent Decision-Support Modules</h3>
+    <p style="margin:2px 0 0 0; color:#5B6B8A; font-size:0.8rem;">End-to-end pipeline designed for Problem Statement 26261</p>
 </div>
 """, unsafe_allow_html=True)
+
+feat_col1, feat_col2 = st.columns(2)
+
+with feat_col1:
+    st.markdown("""
+    <div class="gov-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <span style="font-size:24px; background:#EFF6FF; border:1px solid #BFDBFE; border-radius:10px; padding:6px;">📄</span>
+            <h4 style="margin:0; font-size:1rem; color:#0B1F4B;">Intelligent Document Validation</h4>
+        </div>
+        <p style="font-size:0.85rem; color:#5B6B8A; line-height:1.5; margin:0;">
+            High-accuracy OCR parsing, layout analysis, automated document classification, and cross-field verification using <strong>RapidFuzz</strong> and <strong>PyMuPDF</strong>.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="gov-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <span style="font-size:24px; background:#FEF2F2; border:1px solid #FECACA; border-radius:10px; padding:6px;">⚠️</span>
+            <h4 style="margin:0; font-size:1rem; color:#0B1F4B;">Anomaly & Potential Forgery Detection</h4>
+        </div>
+        <p style="font-size:0.85rem; color:#5B6B8A; line-height:1.5; margin:0;">
+            Error Level Analysis (ELA), cross-institutional document duplication checks, irregular dates, and metadata forensics flagging preliminary alerts.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="gov-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <span style="font-size:24px; background:#F0FDF4; border:1px solid #BBF7D0; border-radius:10px; padding:6px;">📊</span>
+            <h4 style="margin:0; font-size:1rem; color:#0B1F4B;">Centralized Scrutiny Analytics</h4>
+        </div>
+        <p style="font-size:0.85rem; color:#5B6B8A; line-height:1.5; margin:0;">
+            Executive Plotly dashboards depicting application throughput, status distribution, regional load, and compliance Pareto frequencies.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with feat_col2:
+    st.markdown("""
+    <div class="gov-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <span style="font-size:24px; background:#F0FDFA; border:1px solid #99F6E4; border-radius:10px; padding:6px;">🔗</span>
+            <h4 style="margin:0; font-size:1rem; color:#0B1F4B;">Issuing Authority Verification Gateway</h4>
+        </div>
+        <p style="font-size:0.85rem; color:#5B6B8A; line-height:1.5; margin:0;">
+            Direct API queries to DigiLocker, State Fire Services, State Land Records GIS, and NBA/NAAC repositories with timestamped cryptographic evidence.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="gov-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <span style="font-size:24px; background:#FFFBEB; border:1px solid #FDE68A; border-radius:10px; padding:6px;">⚖️</span>
+            <h4 style="margin:0; font-size:1rem; color:#0B1F4B;">APH Regulatory Compliance Check</h4>
+        </div>
+        <p style="font-size:0.85rem; color:#5B6B8A; line-height:1.5; margin:0;">
+            Automated scrutiny against Approval Process Handbook (APH 2024–27) rules, faculty cadre ratio (1:2:6), barrier-free accessibility, and intake deficit calculation.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="gov-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <span style="font-size:24px; background:#F8FAFC; border:1px solid #CBD5E1; border-radius:10px; padding:6px;">🔒</span>
+            <h4 style="margin:0; font-size:1rem; color:#0B1F4B;">Immutable Regulatory Audit Trail</h4>
+        </div>
+        <p style="font-size:0.85rem; color:#5B6B8A; line-height:1.5; margin:0;">
+            SHA-256 chained transaction logging of every rule applied, document scrutinized, officer determination, and statutory memo issued.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ── Footer (Task 9) ────────────────────────────────────────────────────
+render_sih_footer()

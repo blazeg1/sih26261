@@ -208,19 +208,32 @@ with tab_upload:
                         ocr_text = ""
                         if PROCESSING_AVAILABLE:
                             if uf.name.lower().endswith(".pdf"):
-                                pdf_proc = PDFProcessor()
-                                ocr_text = pdf_proc.extract_text(temp_path)
+                                try:
+                                    pdf_proc = PDFProcessor(temp_path)
+                                    ocr_text = pdf_proc.extract_text()
+                                except Exception as e:
+                                    ocr_text = f"[PDF Extraction Error: {e}]"
                             else:
-                                ocr_result = ocr_engine.extract_text(temp_path)
-                                ocr_text = ocr_result.get("text", "")
+                                try:
+                                    res = ocr_engine.extract_text(temp_path)
+                                    ocr_text = res if isinstance(res, str) else str(res.get("text", "") if hasattr(res, "get") else res)
+                                except Exception as e:
+                                    ocr_text = f"[OCR Error: {e}]"
 
                             # Classify
-                            cls_result = classifier.classify(temp_path, filename=uf.name, text=ocr_text)
-                            doc_type = cls_result.doc_type
-                            cls_conf = cls_result.confidence
+                            try:
+                                cls_result = classifier.classify(text=ocr_text, filename=uf.name)
+                                doc_type = cls_result.doc_type if hasattr(cls_result, "doc_type") else cls_result[0]
+                                cls_conf = cls_result.confidence if hasattr(cls_result, "confidence") else cls_result[1]
+                            except Exception:
+                                doc_type = DocumentTypes.OTHER
+                                cls_conf = 0.5
 
                             # Extract entities
-                            ext_data = extractor.extract_all(ocr_text)
+                            try:
+                                ext_data = extractor.extract_all(ocr_text)
+                            except Exception:
+                                ext_data = {}
                         else:
                             doc_type = DocumentTypes.OTHER
                             cls_conf = 0.5

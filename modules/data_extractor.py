@@ -87,6 +87,10 @@ class DataExtractor:
 
         return common_fields
 
+    def extract_all(self, text: str, doc_type: str = "OTHER") -> Dict[str, Any]:
+        """Extract all available entities and fields from text."""
+        return self.extract_fields(text, doc_type)
+
     def _extract_dates(self, text: str) -> List[str]:
         """
         Find all dates in the text using multiple format patterns.

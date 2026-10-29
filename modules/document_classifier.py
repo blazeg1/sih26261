@@ -7,8 +7,11 @@ keyword-based matching and filename analysis.
 
 import re
 from typing import Dict, Tuple, Optional, List
+from collections import namedtuple
 
 from config.settings import DocumentTypes
+
+ClassificationResult = namedtuple("ClassificationResult", ["doc_type", "confidence"])
 
 
 class DocumentClassifier:
@@ -86,7 +89,7 @@ class DocumentClassifier:
             DocumentTypes.UNDERTAKING: ["undertaking", "declaration"],
         }
 
-    def classify(self, text: str, filename: str = "") -> Tuple[str, float]:
+    def classify(self, text: str = "", filename: str = "", *args, **kwargs) -> ClassificationResult:
         """
         Classify a document based on its text content and optionally its filename.
 
@@ -95,20 +98,28 @@ class DocumentClassifier:
             filename: Original filename (optional, used for additional hints).
 
         Returns:
-            Tuple of (document_type, confidence_score) where confidence is 0.0 to 1.0.
+            ClassificationResult(document_type, confidence_score) where confidence is 0.0 to 1.0.
         """
+        # Resolve positional / keyword overrides gracefully
+        actual_text = kwargs.get("text", text)
+        actual_filename = kwargs.get("filename", filename)
+
+        # If a filepath was passed as first arg and keyword text was also provided
+        if args and not actual_filename:
+            actual_filename = str(args[0])
+
         # Get keyword-based scores
-        text_scores = self._keyword_based_classification(text)
+        text_scores = self._keyword_based_classification(actual_text)
 
         # Get filename hints
-        filename_hint = self._filename_based_hints(filename) if filename else None
+        filename_hint = self._filename_based_hints(actual_filename) if actual_filename else None
 
         # Boost the filename-hinted type if available
         if filename_hint and filename_hint in text_scores:
             text_scores[filename_hint] = text_scores[filename_hint] * 1.3 + 0.1
 
         if not text_scores or max(text_scores.values()) == 0:
-            return ("UNKNOWN", 0.0)
+            return ClassificationResult("UNKNOWN", 0.0)
 
         # Find the best match
         best_type = max(text_scores, key=text_scores.get)
@@ -118,7 +129,7 @@ class DocumentClassifier:
         max_possible = len(self._keyword_patterns.get(best_type, [])) * 1.3 + 0.1
         confidence = min(best_score / max(max_possible * 0.4, 1), 1.0)
 
-        return (best_type, round(confidence, 3))
+        return ClassificationResult(best_type, round(confidence, 3))
 
     def _keyword_based_classification(self, text: str) -> Dict[str, float]:
         """

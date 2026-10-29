@@ -46,12 +46,48 @@ class OCREngine:
                 "Install with: pip install pytesseract"
             )
 
-    def extract_text(self, image: np.ndarray) -> str:
+    def _prepare_image(self, image) -> Optional[np.ndarray]:
+        """Convert input image (file path, PIL Image, or NumPy array) to a NumPy array."""
+        if image is None:
+            return None
+
+        if isinstance(image, (str, os.PathLike)):
+            img_path = str(image)
+            if not os.path.exists(img_path):
+                return None
+            try:
+                import cv2
+                arr = np.fromfile(img_path, dtype=np.uint8)
+                img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+                if img is None:
+                    img = cv2.imread(img_path)
+                return img
+            except Exception:
+                if Image is not None:
+                    try:
+                        with Image.open(img_path) as pil_img:
+                            return np.array(pil_img.convert("RGB"))
+                    except Exception:
+                        return None
+                return None
+
+        if Image is not None and isinstance(image, Image.Image):
+            return np.array(image.convert("RGB"))
+
+        if isinstance(image, np.ndarray):
+            if image.size == 0:
+                return None
+            return image
+
+        return None
+
+    def extract_text(self, image) -> str:
         """
         Extract text from an image using Tesseract OCR.
+        Supports NumPy array, PIL Image, or file path.
 
         Args:
-            image: Input image as NumPy array.
+            image: Input image as NumPy array, PIL Image, or file path string.
 
         Returns:
             Extracted text string.
@@ -59,23 +95,25 @@ class OCREngine:
         if not TESSERACT_AVAILABLE:
             return "[OCR unavailable: pytesseract not installed]"
 
-        if image is None or image.size == 0:
+        np_image = self._prepare_image(image)
+        if np_image is None or np_image.size == 0:
             return ""
 
         try:
             # Preprocess for better OCR
-            processed = self.preprocessor.preprocess_for_ocr(image)
+            processed = self.preprocessor.preprocess_for_ocr(np_image)
             text = pytesseract.image_to_string(processed, lang=self.language)
             return text.strip()
         except Exception as e:
             return f"[OCR Error: {str(e)}]"
 
-    def extract_text_with_confidence(self, image: np.ndarray) -> Tuple[str, float]:
+    def extract_text_with_confidence(self, image) -> Tuple[str, float]:
         """
         Extract text with an average confidence score.
+        Supports NumPy array, PIL Image, or file path.
 
         Args:
-            image: Input image as NumPy array.
+            image: Input image as NumPy array, PIL Image, or file path string.
 
         Returns:
             Tuple of (extracted_text, average_confidence) where confidence is 0.0 to 1.0.
@@ -83,11 +121,12 @@ class OCREngine:
         if not TESSERACT_AVAILABLE:
             return "[OCR unavailable: pytesseract not installed]", 0.0
 
-        if image is None or image.size == 0:
+        np_image = self._prepare_image(image)
+        if np_image is None or np_image.size == 0:
             return "", 0.0
 
         try:
-            processed = self.preprocessor.preprocess_for_ocr(image)
+            processed = self.preprocessor.preprocess_for_ocr(np_image)
             data = pytesseract.image_to_data(
                 processed, lang=self.language, output_type=pytesseract.Output.DATAFRAME
             )
@@ -108,12 +147,13 @@ class OCREngine:
         except Exception as e:
             return f"[OCR Error: {str(e)}]", 0.0
 
-    def extract_structured_data(self, image: np.ndarray) -> pd.DataFrame:
+    def extract_structured_data(self, image) -> pd.DataFrame:
         """
         Extract word-level OCR data with bounding boxes and confidence.
+        Supports NumPy array, PIL Image, or file path.
 
         Args:
-            image: Input image as NumPy array.
+            image: Input image as NumPy array, PIL Image, or file path string.
 
         Returns:
             DataFrame with columns: text, conf, left, top, width, height, block_num, line_num, word_num.
@@ -121,11 +161,12 @@ class OCREngine:
         if not TESSERACT_AVAILABLE:
             return pd.DataFrame()
 
-        if image is None or image.size == 0:
+        np_image = self._prepare_image(image)
+        if np_image is None or np_image.size == 0:
             return pd.DataFrame()
 
         try:
-            processed = self.preprocessor.preprocess_for_ocr(image)
+            processed = self.preprocessor.preprocess_for_ocr(np_image)
             data = pytesseract.image_to_data(
                 processed, lang=self.language, output_type=pytesseract.Output.DATAFRAME
             )

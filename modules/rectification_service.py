@@ -82,7 +82,7 @@ Sir / Madam,
 1. This is with reference to your application {app_id} submitted for Extension of Approval (EoA)
    / Institutional Changes for the Academic Session 2026-27.
 
-2. On preliminary AICTE scrutiny through the PRAMAAN Verification Platform, the following
+2. On preliminary AICTE scrutiny through the AICTE KAVACH Verification Platform, the following
    deficiencies / discrepancies have been identified against prescribed regulatory norms:
 
 {en_body}
@@ -101,7 +101,7 @@ By Order of Competent Authority,
 ({officer_name})
 {officer_role}
 Bureau of Approval, AICTE, New Delhi
-Digitally Signed through PRAMAAN Decision Support Platform
+Digitally Signed through AICTE KAVACH Decision Support Platform
 ========================================================================================"""
 
         # Hindi Notice
@@ -127,7 +127,7 @@ Digitally Signed through PRAMAAN Decision Support Platform
 1. यह शैक्षणिक सत्र 2026-27 हेतु अनुमोदन विस्तार (EoA) / अनुमोदन परिवर्तनों के लिए आपके द्वारा
    प्रस्तुत आवेदन {app_id} के संदर्भ में है।
 
-2. प्रमाण (PRAMAAN) सत्यापन प्रणाली द्वारा की गई प्राथमिक जांच में निम्नलिखित कमियां / विसंगतियां
+2. कवच (AICTE KAVACH) नियामक संवीक्षा प्रणाली द्वारा की गई प्राथमिक जांच में निम्नलिखित कमियां / विसंगतियां
    पहचानी गई हैं:
 
 {hi_body}
@@ -146,7 +146,7 @@ Digitally Signed through PRAMAAN Decision Support Platform
 ({officer_name})
 {officer_role}
 अनुमोदन ब्यूरो, एआईसीटीई, नई दिल्ली
-डिजिटल रूप से प्रमाणित · प्रमाण (PRAMAAN) निर्णय समर्थन प्रणाली
+डिजिटल रूप से प्रमाणित · एआईसीटीई कवच (AICTE KAVACH) निर्णय समर्थन प्रणाली
 ========================================================================================"""
 
         return {

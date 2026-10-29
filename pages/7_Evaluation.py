@@ -68,7 +68,7 @@ st.markdown("""
                 Statutory Advisory Screening Principle
             </div>
             <div style="font-size:0.78rem; color:#166534; margin-top:2px;">
-                The PRAMAAN AI platform is strictly an advisory screening and decision-support system. It never auto-approves or auto-rejects applications. All findings, citations, and risk scores are evidence-linked recommendations presented to authorized AICTE scrutiny officers.
+                The AICTE KAVACH platform is strictly an advisory screening and decision-support system. It never auto-approves or auto-rejects applications. All findings, citations, and risk scores are evidence-linked recommendations presented to authorized AICTE scrutiny officers.
             </div>
         </div>
     </div>
@@ -291,7 +291,7 @@ st.markdown("### 🔍 System Limitations & Responsible AI Transparency")
 
 with st.expander("📌 Read Full Technical Limitations & Regulatory Scrutiny Safeguards", expanded=True):
     st.markdown("""
-    To ensure complete compliance with government scrutiny standards, **PRAMAAN** strictly documents its architectural boundaries:
+    To ensure complete compliance with government scrutiny standards, **AICTE KAVACH** strictly documents its architectural boundaries:
 
     1. **Simulated Issuing Authority Connectors (Level 4 Verification)**:
        - Registry connectors (DigiLocker Academic, State Fire Services, State Land Records GIS, and NBA Accreditation) are currently implemented using **high-fidelity simulated connectors** mimicking production JSON-RPC/REST protocols.

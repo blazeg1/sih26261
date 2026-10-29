@@ -1,5 +1,6 @@
-# 🏛️ AICTE PRAMAAN — Approval Validation & Decision-Support Platform
+# 🛡️ AICTE KAVACH — Approval Validation & Decision-Support Platform
 
+> **AICTE KAVACH** (*Knowledge-driven AICTE Verification, Anomaly Checking & Handbook Engine*)  
 > **Smart India Hackathon 2026** | **Problem Statement 26261**  
 > **Ministry of Education, Government of India — AICTE Regulation Bureau**  
 > *"AI-Powered Application Validation, Document Authentication and Regulatory Compliance Verification"*

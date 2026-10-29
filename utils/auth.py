@@ -97,11 +97,11 @@ def render_login_page() -> None:
     st.markdown("""
     <div style="max-width: 460px; margin: 1.5rem auto 0 auto; text-align: center;">
         <div style="display:inline-flex; align-items:center; justify-content:center; width:64px; height:64px; border-radius:18px; background:linear-gradient(135deg, #0B1F4B 0%, #162C6A 100%); border:2px solid #FF9933; font-size:32px; box-shadow:0 6px 18px rgba(11,31,75,0.25); margin-bottom:12px;">
-            🏛️
+            🛡️
         </div>
-        <h2 style="font-family:'Poppins', sans-serif; font-size:1.6rem; font-weight:800; color:#0B1F4B; margin:0;">AICTE PRAMAAN</h2>
+        <h2 style="font-family:'Poppins', sans-serif; font-size:1.6rem; font-weight:800; color:#0B1F4B; margin:0;">AICTE KAVACH</h2>
         <p style="font-size:0.85rem; color:#5B6B8A; margin:4px 0 20px 0;">
-            Institutional Approval Validation & Regulatory Scrutiny Platform<br>
+            Knowledge-driven AICTE Verification, Anomaly Checking & Handbook Engine<br>
             <span style="font-size:0.75rem; color:#FF9933; font-weight:700;">Smart India Hackathon 2026 · PS 26261</span>
         </p>
     </div>

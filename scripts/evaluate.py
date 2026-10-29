@@ -41,7 +41,7 @@ def run_evaluation() -> dict:
     tn = 0
 
     print("=" * 80)
-    print("AICTE PRAMAAN VALIDATION PLATFORM — SYSTEMIC EVALUATION BENCHMARK")
+    print("AICTE KAVACH VALIDATION PLATFORM — SYSTEMIC EVALUATION BENCHMARK")
     print("Problem Statement 26261 | Ministry of Education, Govt. of India")
     print(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S IST')}")
     print("=" * 80)

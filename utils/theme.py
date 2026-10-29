@@ -1,8 +1,8 @@
 """
-PRAMAAN Theme & UI Component Library.
+KAVACH Theme & UI Component Library.
 
 Provides GovTech visual styling, top header ribbons, officer profiles,
-Sahayak AI Assistant, and responsive CSS for the AICTE PRAMAAN platform.
+Sahayak AI Assistant, and responsive CSS for the AICTE KAVACH platform.
 """
 
 import streamlit as st
@@ -210,7 +210,7 @@ def render_top_gov_banner():
     st.markdown("""
     <div class="gov-banner">
         <div>
-            🇮🇳 <strong>Government of India</strong> · Ministry of Education · All India Council for Technical Education (AICTE) · <span style="color:#60A5FA; font-weight:600;">PRAMAAN Regulatory Platform</span>
+            🇮🇳 <strong>Government of India</strong> · Ministry of Education · All India Council for Technical Education (AICTE) · <span style="color:#60A5FA; font-weight:600;">KAVACH Regulatory Platform</span>
         </div>
         <div style="display:flex; align-items:center; gap:16px;">
             <span class="gov-indicator">🟢 Secure Session · TLS 1.3</span>
@@ -222,7 +222,7 @@ def render_top_gov_banner():
 
 
 def render_pramaan_header(user_info=None):
-    """Render the main PRAMAAN brand and officer chip bar."""
+    """Render the main KAVACH brand and officer chip bar."""
     name = user_info.get("full_name", "Dr. Rajeshwar Pant") if user_info else "Dr. Rajeshwar Pant"
     role = user_info.get("role", "Senior Scrutiny Officer") if user_info else "Senior Scrutiny Officer"
     dept = user_info.get("department", "Bureau of Approval & Regulatory Compliance") if user_info else "Bureau of Approval & Regulatory Compliance"
@@ -231,15 +231,15 @@ def render_pramaan_header(user_info=None):
     st.markdown(f"""
     <div class="pramaan-header">
         <div class="pramaan-brand">
-            <div class="pramaan-logo-icon">🏛️</div>
+            <div class="pramaan-logo-icon">🛡️</div>
             <div>
-                <p class="pramaan-title">PRAMAAN <span>प्रमाण से विश्वास</span></p>
-                <p class="pramaan-subtitle">Institutional Verification & Regulatory Compliance Intelligence Platform</p>
+                <p class="pramaan-title">AICTE KAVACH <span>नियामक सुरक्षा कवच</span></p>
+                <p class="pramaan-subtitle">Knowledge-driven Verification, Anomaly Checking & Handbook Engine</p>
             </div>
         </div>
         <div style="display:flex; align-items:center; gap:12px;">
             <div style="background:#0F172A; border:1px solid #334155; border-radius:8px; padding:6px 12px; font-size:0.8rem; color:#94A3B8;">
-                🔍 Search PRAMAAN... <span style="background:#1E293B; padding:1px 6px; border-radius:4px; font-size:0.7rem;">/</span>
+                🔍 Search KAVACH... <span style="background:#1E293B; padding:1px 6px; border-radius:4px; font-size:0.7rem;">/</span>
             </div>
             <div class="officer-chip">
                 <div class="officer-avatar">{initials}</div>

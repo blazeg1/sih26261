@@ -179,7 +179,7 @@ run_col1, run_col2 = st.columns([7, 3])
 with run_col1:
     st.markdown("""
     <div style="font-size:0.88rem; color:#0B1F4B; font-weight:600;">
-        PRAMAAN AI Validation Engine executes automated checks against AICTE Approval Process Handbook (APH 2024-27).
+        AICTE KAVACH Engine executes automated advisory checks against AICTE Approval Process Handbook (APH 2024-27).
     </div>
     """, unsafe_allow_html=True)
 with run_col2:

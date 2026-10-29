@@ -1,5 +1,5 @@
 """
-Centralized Styling and UI Component Helpers for PRAMAAN / AICTE Validator.
+Centralized Styling and UI Component Helpers for AICTE KAVACH Platform.
 
 Loads static/styles.css, handles the light/dark theme toggle, and provides
 standardized component renderers for KPI cards, badges, progress trackers, and footers.
@@ -324,10 +324,10 @@ def render_sidebar_header(user=None):
     """Render the styled sidebar brand header and user profile block."""
     st.sidebar.markdown(
         '<div class="sidebar-brand-block">'
-        '<div class="sidebar-brand-icon">🏛️</div>'
+        '<div class="sidebar-brand-icon">🛡️</div>'
         '<div>'
-        '<div class="sidebar-title">AICTE PRAMAAN</div>'
-        '<div class="sidebar-subtitle">Validation Platform</div>'
+        '<div class="sidebar-title">AICTE KAVACH</div>'
+        '<div class="sidebar-subtitle">Regulatory Shield · SIH 26261</div>'
         '</div>'
         '</div>',
         unsafe_allow_html=True
@@ -430,8 +430,8 @@ def render_sih_footer():
     """Render the official SIH 2026 footer."""
     st.markdown(
         '<div class="sih-footer">'
-        '🏛️ <strong>AICTE Approval Validation Platform</strong> · Built for <strong>Smart India Hackathon 2026 | PS 26261</strong><br>'
-        '<span style="color:#94A3B8; font-size:0.72rem;">Decision Support Tool for Application Processing, Document Authentication & Regulatory Scrutiny</span>'
+        '🛡️ <strong>AICTE KAVACH Platform</strong> · Built for <strong>Smart India Hackathon 2026 | PS 26261</strong><br>'
+        '<span style="color:#94A3B8; font-size:0.72rem;">Knowledge-driven AICTE Verification, Anomaly Checking & Handbook Engine</span>'
         '</div>',
         unsafe_allow_html=True
     )

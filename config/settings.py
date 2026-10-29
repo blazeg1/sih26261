@@ -15,8 +15,8 @@ from typing import List
 # ---------------------------------------------------------------------------
 _PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-APP_TITLE: str = "AICTE Approval Validation Platform"
-APP_ICON: str = "🏛️"
+APP_TITLE: str = "AICTE KAVACH — Approval Validation Platform"
+APP_ICON: str = "🛡️"
 DATABASE_PATH: str = os.path.join(_PROJECT_ROOT, "data", "aicte_validation.db")
 UPLOAD_DIR: str = os.path.join(_PROJECT_ROOT, "uploads")
 

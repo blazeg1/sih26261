@@ -22,6 +22,7 @@ from utils.styles import (
     render_gov_header,
     render_aicte_brand_bar,
     render_sidebar_header,
+    render_sidebar_logout,
     render_sih_footer
 )
 
@@ -39,6 +40,7 @@ user = get_current_user()
 # Sidebar
 with st.sidebar:
     render_sidebar_header(user)
+    render_sidebar_logout("audit")
 
 # Header
 render_aicte_brand_bar("Immutable Regulatory Audit Trail", "Statutory Logging & Cryptographic Traceability for Vigilance & CVC Compliance")

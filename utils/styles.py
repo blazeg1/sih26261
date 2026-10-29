@@ -216,6 +216,45 @@ def apply_custom_styles():
             border-color: #FF9933 !important;
         }
 
+        /* Sidebar Action / Logout Buttons in Dark Mode */
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button,
+        section[data-testid="stSidebar"] .stButton > button {
+            background: rgba(239, 68, 68, 0.18) !important;
+            border: 1px solid rgba(239, 68, 68, 0.5) !important;
+        }
+
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button p,
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button span,
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button div,
+        section[data-testid="stSidebar"] .stButton > button * {
+            color: #FECACA !important;
+            font-weight: 700 !important;
+        }
+
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover,
+        section[data-testid="stSidebar"] .stButton > button:hover {
+            background: #EF4444 !important;
+            border-color: #EF4444 !important;
+        }
+
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover p,
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover span,
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover div,
+        section[data-testid="stSidebar"] .stButton > button:hover * {
+            color: #FFFFFF !important;
+        }
+
+        /* Buttons in Main Dark View */
+        div[data-testid="stButton"] button[kind="secondary"] {
+            background: #0D1B36 !important;
+            border-color: #1E2E52 !important;
+        }
+
+        div[data-testid="stButton"] button[kind="secondary"] p,
+        div[data-testid="stButton"] button[kind="secondary"] span {
+            color: #F1F5F9 !important;
+        }
+
         .sih-footer {
             border-top-color: #1E2E52 !important;
             color: #94A3B8 !important;
@@ -312,6 +351,16 @@ def render_sidebar_header(user=None):
             f'</div>',
             unsafe_allow_html=True
         )
+
+
+def render_sidebar_logout(key_suffix=""):
+    """Render a styled, prominent Sign Out button in the sidebar."""
+    from utils.auth import logout
+    st.sidebar.markdown("---")
+    btn_key = f"sidebar_signout_btn_{key_suffix}" if key_suffix else "sidebar_signout_btn"
+    if st.sidebar.button("🚪 Sign Out", key=btn_key, use_container_width=True):
+        logout()
+        st.rerun()
 
 
 def render_kpi_card(title: str, value: str, icon: str, variant="navy", trend="+12% vs last cycle", trend_type="up"):

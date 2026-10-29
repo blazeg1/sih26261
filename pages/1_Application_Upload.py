@@ -29,6 +29,7 @@ from utils.styles import (
     render_gov_header,
     render_aicte_brand_bar,
     render_sidebar_header,
+    render_sidebar_logout,
     render_sih_footer,
     render_progress_tracker,
     status_badge_html
@@ -54,6 +55,7 @@ if user and user["role"] not in ("ADMIN", "REVIEWER"):
 # ── Sidebar ────────────────────────────────────────────────────────────
 with st.sidebar:
     render_sidebar_header(user)
+    render_sidebar_logout("upload")
 
 # ── Header Bar ─────────────────────────────────────────────────────────
 render_aicte_brand_bar("Application Upload & Intake", "Institutional Filing & Multi-Format Document OCR Ingestion Studio")

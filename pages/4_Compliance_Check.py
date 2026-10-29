@@ -23,6 +23,7 @@ from utils.styles import (
     render_gov_header,
     render_aicte_brand_bar,
     render_sidebar_header,
+    render_sidebar_logout,
     render_sih_footer,
     render_progress_tracker,
     status_badge_html
@@ -42,6 +43,7 @@ user = get_current_user()
 # Sidebar
 with st.sidebar:
     render_sidebar_header(user)
+    render_sidebar_logout("compliance")
 
 # Header
 render_aicte_brand_bar("Regulatory Compliance Review Engine", "Rule Scrutiny Derived from AICTE Approval Process Handbook (APH 2024-27)")

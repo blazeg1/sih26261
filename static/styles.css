@@ -251,6 +251,70 @@ section[data-testid="stSidebar"] div {
     font-weight: 700 !important;
 }
 
+/* Sidebar Action & Logout Buttons (Task 3: Styled Logout Button) */
+section[data-testid="stSidebar"] div[data-testid="stButton"] button,
+section[data-testid="stSidebar"] .stButton > button {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border: 1px solid rgba(239, 68, 68, 0.45) !important;
+    border-radius: 10px !important;
+    padding: 8px 16px !important;
+    transition: all 0.25s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    width: 100% !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stButton"] button p,
+section[data-testid="stSidebar"] div[data-testid="stButton"] button span,
+section[data-testid="stSidebar"] div[data-testid="stButton"] button div,
+section[data-testid="stSidebar"] .stButton > button * {
+    color: #FECACA !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.3px !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover,
+section[data-testid="stSidebar"] .stButton > button:hover {
+    background: #EF4444 !important;
+    border-color: #EF4444 !important;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.45) !important;
+    transform: translateY(-2px) !important;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover p,
+section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover span,
+section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover div,
+section[data-testid="stSidebar"] .stButton > button:hover * {
+    color: #FFFFFF !important;
+}
+
+/* Global Button Contrast Defaults */
+div[data-testid="stButton"] button[kind="secondary"] {
+    background: #FFFFFF;
+    border: 1px solid var(--border-light);
+}
+
+div[data-testid="stButton"] button[kind="secondary"] p,
+div[data-testid="stButton"] button[kind="secondary"] span {
+    color: var(--primary) !important;
+    font-weight: 600;
+}
+
+div[data-testid="stButton"] button[kind="primary"] {
+    background: linear-gradient(135deg, var(--accent) 0%, #E68524 100%) !important;
+    border: none !important;
+}
+
+div[data-testid="stButton"] button[kind="primary"] p,
+div[data-testid="stButton"] button[kind="primary"] span {
+    color: #0B1F4B !important;
+    font-weight: 700 !important;
+}
+
 /* Modern Card Surfaces */
 .gov-card {
     background: var(--bg-card);

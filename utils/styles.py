@@ -29,44 +29,92 @@ def apply_custom_styles():
     dark_css = ""
     if is_dark:
         dark_css = """
-        html, body, .stApp, [data-testid="stAppViewContainer"], .main {
+        :root {
+            --bg-main: #070E1E !important;
+            --bg-card: #0D1B36 !important;
+            --text-main: #F1F5F9 !important;
+            --text-muted: #94A3B8 !important;
+            --border-light: #1E2E52 !important;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.45) !important;
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.65) !important;
+        }
+
+        html, body,
+        .stApp,
+        [data-testid="stAppViewContainer"],
+        [data-testid="stMain"],
+        [data-testid="stMainBlockContainer"],
+        .main, section.main,
+        header[data-testid="stHeader"] {
             background-color: #070E1E !important;
             background: #070E1E !important;
             color: #F1F5F9 !important;
         }
-        header[data-testid="stHeader"] {
-            background-color: #070E1E !important;
+
+        section[data-testid="stSidebar"],
+        section[data-testid="stSidebar"] > div,
+        [data-testid="stSidebar"],
+        [data-testid="stSidebarUserContent"],
+        [data-testid="stSidebarContent"],
+        .stSidebar {
+            background: linear-gradient(180deg, #030712 0%, #070E1E 100%) !important;
+            border-right: 1px solid #1E2E52 !important;
         }
-        .kpi-card, .gov-card, .score-ring-box, .check-item, .alert-card, .aicte-hero-bar,
-        div[style*="background:#FFFFFF"], div[style*="background: #FFFFFF"],
-        div[style*="background:#F8FAFC"], div[style*="background: #F8FAFC"],
-        div[style*="background:white"] {
+
+        .kpi-card,
+        .gov-card,
+        .score-ring-box,
+        .check-item,
+        .alert-card,
+        .aicte-hero-bar,
+        .login-hero-container,
+        div[style*="background:#FFFFFF"],
+        div[style*="background: #FFFFFF"],
+        div[style*="background:#ffffff"],
+        div[style*="background: #ffffff"],
+        div[style*="background:white"],
+        div[style*="background: white"],
+        div[style*="background:#F8FAFC"],
+        div[style*="background: #F8FAFC"],
+        div[style*="background-color: #FFFFFF"],
+        div[style*="background-color:#FFFFFF"],
+        div[style*="background-color: white"],
+        div[style*="background-color:rgb(255, 255, 255)"],
+        div[style*="background-color: rgb(255, 255, 255)"],
+        div[style*="background: rgb(255, 255, 255)"] {
+            background-color: #0D1B36 !important;
             background: #0D1B36 !important;
             border-color: #1E2E52 !important;
             color: #F1F5F9 !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45) !important;
         }
-        h1, h2, h3, h4, h5, h6, .kpi-value, .sidebar-title, .aicte-title {
+
+        h1, h2, h3, h4, h5, h6,
+        .kpi-value,
+        .sidebar-title,
+        .aicte-title,
+        [style*="color:#0B1F4B"],
+        [style*="color: #0B1F4B"],
+        [style*="color:#1E293B"],
+        [style*="color: #1E293B"] {
             color: #FFFFFF !important;
         }
-        .kpi-title, .step-label, .text-muted {
+
+        .kpi-title,
+        .step-label,
+        .text-muted,
+        .aicte-sub,
+        [style*="color:#5B6B8A"],
+        [style*="color: #5B6B8A"],
+        [style*="color:#475569"],
+        [style*="color: #475569"],
+        [style*="color:#334155"],
+        [style*="color: #334155"],
+        [style*="color:#64748B"],
+        [style*="color: #64748B"] {
             color: #94A3B8 !important;
         }
-        .step-circle {
-            background: #0D1B36 !important;
-            border-color: #1E2E52 !important;
-            color: #94A3B8 !important;
-        }
-        .tracker-step.completed .step-circle {
-            background: #10B981 !important;
-            border-color: #10B981 !important;
-            color: #FFFFFF !important;
-        }
-        .tracker-step.active .step-circle {
-            background: #FF9933 !important;
-            border-color: #FF9933 !important;
-            color: #FFFFFF !important;
-        }
+
         div[data-baseweb="select"] > div,
         div[data-baseweb="input"] > div,
         input, textarea, select {
@@ -74,40 +122,107 @@ def apply_custom_styles():
             color: #F8FAFC !important;
             border-color: #1E2E52 !important;
         }
+
         div[data-testid="stDataFrame"], table {
             background-color: #0D1B36 !important;
             color: #F1F5F9 !important;
             border-color: #1E2E52 !important;
         }
+
         th {
             background-color: #070E1E !important;
             color: #FFFFFF !important;
+            border-bottom: 1px solid #1E2E52 !important;
         }
-        tr {
+
+        tr,
+        tr[style*="background:#FFFFFF"],
+        tr[style*="background: #FFFFFF"],
+        tr[style*="background:#F8FAFC"],
+        tr[style*="background: #F8FAFC"] {
             background-color: #0D1B36 !important;
-            border-bottom-color: #1E2E52 !important;
+            background: #0D1B36 !important;
+            border-bottom: 1px solid #1E2E52 !important;
         }
+
         td {
             color: #F1F5F9 !important;
+            border-bottom: 1px solid #1E2E52 !important;
         }
+
+        td [style*="color:#0B1F4B"] {
+            color: #FF9933 !important;
+        }
+
+        td [style*="color:#1E293B"] {
+            color: #F8FAFC !important;
+        }
+
         div[data-testid="stExpander"] {
             background-color: #0D1B36 !important;
             border-color: #1E2E52 !important;
             color: #F1F5F9 !important;
         }
+
         div[data-testid="stExpander"] summary {
             color: #F1F5F9 !important;
         }
+
+        div[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+            background-color: #0A152B !important;
+        }
+
         div[style*="background:#EFF6FF"],
+        div[style*="background: #EFF6FF"],
         div[style*="background:#F0FDF4"],
+        div[style*="background: #F0FDF4"],
         div[style*="background:#FFFBEB"],
-        div[style*="background:#FEF2F2"] {
+        div[style*="background: #FFFBEB"],
+        div[style*="background:#FEF2F2"],
+        div[style*="background: #FEF2F2"],
+        div[style*="background:#F0FDFA"],
+        div[style*="background: #F0FDFA"] {
             background: #0A172F !important;
+            border-color: #1E2E52 !important;
             color: #E2E8F0 !important;
         }
-        div[data-testid="stSidebar"] {
-            background: linear-gradient(180deg, #050B17 0%, #0A1428 100%) !important;
-            border-right-color: #1E2E52 !important;
+
+        .step-circle {
+            background: #0D1B36 !important;
+            border-color: #1E2E52 !important;
+            color: #94A3B8 !important;
+        }
+
+        .tracker-step.completed .step-circle {
+            background: #10B981 !important;
+            border-color: #10B981 !important;
+            color: #FFFFFF !important;
+        }
+
+        .tracker-step.active .step-circle {
+            background: #FF9933 !important;
+            border-color: #FF9933 !important;
+            color: #FFFFFF !important;
+        }
+
+        .demo-account-pill {
+            background: #0A152B !important;
+            border-color: #1E2E52 !important;
+            color: #E2E8F0 !important;
+        }
+
+        .demo-account-pill:hover {
+            background: #162C6A !important;
+            border-color: #FF9933 !important;
+        }
+
+        .sih-footer {
+            border-top-color: #1E2E52 !important;
+            color: #94A3B8 !important;
+        }
+
+        .sih-footer strong {
+            color: #FF9933 !important;
         }
         """
 
@@ -133,6 +248,9 @@ def render_gov_header():
 
 def render_aicte_brand_bar(title="Approval Validation Platform", subtitle="AI-Powered Decision Support System for Technical Institutions"):
     """Render the main AICTE brand hero bar with synchronized Dark Mode toggle."""
+    if "dark_mode" not in st.session_state:
+        st.session_state["dark_mode"] = False
+
     col_brand, col_theme = st.columns([8, 2])
     with col_brand:
         st.markdown(
@@ -149,16 +267,16 @@ def render_aicte_brand_bar(title="Approval Validation Platform", subtitle="AI-Po
         )
 
     with col_theme:
-        def _toggle_dark():
-            st.session_state["dark_mode"] = st.session_state["dark_mode_toggle_val"]
-
-        current_dark = st.session_state.get("dark_mode", False)
-        st.toggle(
+        current_dark = st.session_state["dark_mode"]
+        clean_key = f"theme_toggle_{''.join(c for c in title if c.isalnum()).lower()[:12]}"
+        toggle_state = st.toggle(
             "🌙 Dark Mode",
             value=current_dark,
-            key="dark_mode_toggle_val",
-            on_change=_toggle_dark
+            key=clean_key
         )
+        if toggle_state != current_dark:
+            st.session_state["dark_mode"] = toggle_state
+            st.rerun()
 
     st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
 

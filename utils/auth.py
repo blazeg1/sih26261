@@ -203,9 +203,12 @@ def require_role(allowed_roles: List[str]):
 
 
 def logout() -> None:
-    """Clear the current session."""
+    """Clear the current session while preserving theme preference."""
+    dark_mode = st.session_state.get("dark_mode", False)
     for key in list(st.session_state.keys()):
         del st.session_state[key]
+    if dark_mode:
+        st.session_state["dark_mode"] = True
 
 
 def get_current_user() -> Optional[Dict]:

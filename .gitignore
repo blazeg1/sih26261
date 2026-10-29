@@ -46,6 +46,10 @@ uploads/
 # Streamlit
 .streamlit/secrets.toml
 
+# Executables & Binaries
+*.exe
+cloudflared.exe
+
 # OS
 .DS_Store
 Thumbs.db

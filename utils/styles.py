@@ -218,23 +218,34 @@ def apply_custom_styles():
 
         /* Sidebar Action / Logout Buttons in Dark Mode */
         section[data-testid="stSidebar"] div[data-testid="stButton"] button,
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button[kind="secondary"],
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button[kind="primary"],
+        section[data-testid="stSidebar"] button[data-testid="baseButton-secondary"],
+        section[data-testid="stSidebar"] button[data-testid="baseButton-primary"],
         section[data-testid="stSidebar"] .stButton > button {
-            background: rgba(239, 68, 68, 0.18) !important;
-            border: 1px solid rgba(239, 68, 68, 0.5) !important;
+            background: #DC2626 !important;
+            border: 1px solid #EF4444 !important;
+            border-radius: 10px !important;
+            padding: 10px 16px !important;
         }
 
         section[data-testid="stSidebar"] div[data-testid="stButton"] button p,
         section[data-testid="stSidebar"] div[data-testid="stButton"] button span,
         section[data-testid="stSidebar"] div[data-testid="stButton"] button div,
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button *,
+        section[data-testid="stSidebar"] .stButton > button p,
+        section[data-testid="stSidebar"] .stButton > button span,
         section[data-testid="stSidebar"] .stButton > button * {
-            color: #FECACA !important;
+            color: #FFFFFF !important;
             font-weight: 700 !important;
+            font-size: 0.95rem !important;
         }
 
         section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover,
+        section[data-testid="stSidebar"] div[data-testid="stButton"] button[kind="secondary"]:hover,
         section[data-testid="stSidebar"] .stButton > button:hover {
-            background: #EF4444 !important;
-            border-color: #EF4444 !important;
+            background: #B91C1C !important;
+            border-color: #F87171 !important;
         }
 
         section[data-testid="stSidebar"] div[data-testid="stButton"] button:hover p,

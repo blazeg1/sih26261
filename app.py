@@ -27,6 +27,7 @@ from utils.styles import (
     render_gov_header,
     render_aicte_brand_bar,
     render_sidebar_header,
+    render_sidebar_logout,
     render_kpi_card,
     render_sih_footer,
     status_badge_html
@@ -65,7 +66,9 @@ if not check_auth():
     render_sih_footer()
     st.stop()
 
-# User is authenticated
+# User is authenticated -> Automatically navigate to the Dashboard as first screen
+st.switch_page("pages/1_Dashboard.py")
+
 user = get_current_user()
 
 # ── Sidebar ────────────────────────────────────────────────────────────
@@ -82,10 +85,7 @@ with st.sidebar:
 
     st.caption("Use the sidebar pages menu above to navigate through Application Upload, Document Validation, Anomaly Detection, Compliance Check, Dashboard, and Audit Trail.")
 
-    st.markdown("---")
-    if st.button("🚪 Sign Out", use_container_width=True, type="secondary"):
-        logout()
-        st.rerun()
+    render_sidebar_logout("app")
 
 # ── Main Content Area ──────────────────────────────────────────────────
 render_aicte_brand_bar("Approval Validation Platform", "AI-Powered Decision Support Tool for Application Processing & Scrutiny")

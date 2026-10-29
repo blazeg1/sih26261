@@ -30,11 +30,11 @@
 ```mermaid
 flowchart TD
     subgraph UI ["🖥️ Modern Streamlit Frontend (Gov-Grade Design)"]
-        A1["1. Application Ingest Studio"]
-        A2["2. Document Validation & Evidence Inspector"]
-        A3["3. Anomaly & 4-Level Forensics Studio"]
-        A4["4. APH Compliance Check & Score Ring"]
-        A5["5. Executive Analytics Dashboard"]
+        A1["1. Executive Analytics Dashboard (Top Landing Screen)"]
+        A2["2. Application Ingest Studio"]
+        A3["3. Document Validation & Evidence Inspector"]
+        A4["4. Anomaly & 4-Level Forensics Studio"]
+        A5["5. APH Compliance Check & Score Ring"]
         A6["6. Immutable Audit Trail"]
         A7["7. Benchmark Evaluation & Limitations"]
     end
@@ -213,13 +213,16 @@ pytest tests/ -v
 
 ---
 
-## 👥 Demo Credentials
+## 👥 Demo Credentials & Officer Registration
+
+You can log in immediately using the 1-click test persona buttons, enter standard credentials, or register any new officer in the **"📝 Register New Officer"** tab:
 
 | Role | Username | Password | Access Scope |
 |---|---|---|---|
 | **Senior Scrutiny Officer (Admin)** | `admin` | `admin123` | Full access, user management, audit review |
 | **Regional Reviewer** | `reviewer1` | `review123` | Scrutiny review, forensic scans, notice drafting |
 | **Documentation Scrutinizer** | `viewer1` | `viewer123` | Read-only dossier inspection & audit viewer |
+| **Self-Registered Officer** | *(custom)* | *(custom $\ge 6$ chars)* | Cadre assigned during self-registration |
 
 ---
 

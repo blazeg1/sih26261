@@ -22,7 +22,7 @@ from config.settings import (
     APP_TITLE, APP_ICON, DATABASE_PATH, UPLOAD_DIR,
     SUPPORTED_EXTENSIONS, ApplicationCategories, DocumentTypes,
 )
-from utils.auth import check_auth, require_role, get_current_user
+from utils.auth import check_auth, require_role, get_current_user, render_login_page
 from utils.helpers import ensure_dir, compute_file_hash, get_timestamp
 from utils.styles import (
     apply_custom_styles,
@@ -42,7 +42,11 @@ render_gov_header()
 
 # ── Auth Check ─────────────────────────────────────────────────────────
 if not check_auth():
-    st.warning("🔒 Please log in from the main page to access this section.")
+    try:
+        st.switch_page("app.py")
+    except Exception:
+        pass
+    render_login_page()
     render_sih_footer()
     st.stop()
 

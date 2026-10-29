@@ -371,7 +371,10 @@ def render_sidebar_logout(key_suffix=""):
     btn_key = f"sidebar_signout_btn_{key_suffix}" if key_suffix else "sidebar_signout_btn"
     if st.sidebar.button("🚪 Sign Out", key=btn_key, use_container_width=True):
         logout()
-        st.rerun()
+        try:
+            st.switch_page("app.py")
+        except Exception:
+            st.rerun()
 
 
 def render_kpi_card(title: str, value: str, icon: str, variant="navy", trend="+12% vs last cycle", trend_type="up"):

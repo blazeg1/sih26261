@@ -22,7 +22,7 @@ import plotly.graph_objects as go
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from config.settings import APP_TITLE, DATABASE_PATH, SEVERITY_LEVELS
-from utils.auth import check_auth, get_current_user
+from utils.auth import check_auth, get_current_user, render_login_page
 from utils.helpers import get_timestamp
 from utils.styles import (
     apply_custom_styles,
@@ -41,7 +41,11 @@ apply_custom_styles()
 render_gov_header()
 
 if not check_auth():
-    st.warning("🔒 Please log in from the main page.")
+    try:
+        st.switch_page("app.py")
+    except Exception:
+        pass
+    render_login_page()
     render_sih_footer()
     st.stop()
 

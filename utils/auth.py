@@ -154,6 +154,14 @@ def login_form() -> None:
         """)
 
 
+def redirect_to_dashboard() -> None:
+    """Navigate to the Dashboard, falling back to rerun if already on that page."""
+    try:
+        st.switch_page("pages/1_Dashboard.py")
+    except Exception:
+        st.rerun()
+
+
 def render_login_page() -> None:
     """Render a full-page, centered-card government-grade login and officer registration interface."""
     st.markdown("""
@@ -198,7 +206,7 @@ def render_login_page() -> None:
                     else:
                         st.session_state["user"] = user
                         st.success(f"✅ Welcome, {user['full_name']}! Redirecting to Dashboard...")
-                        st.switch_page("pages/1_Dashboard.py")
+                        redirect_to_dashboard()
 
             # Collapsible Demo Access Box
             with st.expander("🔑 Demo Access (SIH Evaluator Quick-Login)", expanded=True):
@@ -212,7 +220,7 @@ def render_login_page() -> None:
                             "role": "ADMIN",
                             "department": "Bureau of Approval & Regulatory Compliance",
                         }
-                        st.switch_page("pages/1_Dashboard.py")
+                        redirect_to_dashboard()
                 with c_rev:
                     if st.button("🔍 Reviewer", use_container_width=True, help="Scrutiny officer role (reviewer1 / review123)"):
                         st.session_state["user"] = {
@@ -221,7 +229,7 @@ def render_login_page() -> None:
                             "role": "REVIEWER",
                             "department": "Northern Regional Committee (NRC)",
                         }
-                        st.switch_page("pages/1_Dashboard.py")
+                        redirect_to_dashboard()
                 with c_viw:
                     if st.button("👁️ Viewer", use_container_width=True, help="Read-only auditor (viewer1 / viewer123)"):
                         st.session_state["user"] = {
@@ -230,7 +238,7 @@ def render_login_page() -> None:
                             "role": "VIEWER",
                             "department": "Public Scrutiny & RTI Cell",
                         }
-                        st.switch_page("pages/1_Dashboard.py")
+                        redirect_to_dashboard()
 
         with tab_reg:
             st.markdown("<p style='font-size:0.8rem; color:#5B6B8A; margin-bottom:12px;'>Register an authorized AICTE scrutiny officer or regional assessor profile.</p>", unsafe_allow_html=True)
@@ -278,7 +286,7 @@ def render_login_page() -> None:
                             "department": reg_dept.strip(),
                         }
                         st.success(f"✅ {msg} Entering Dashboard...")
-                        st.switch_page("pages/1_Dashboard.py")
+                        redirect_to_dashboard()
                     else:
                         st.error(f"❌ {msg}")
 
@@ -318,12 +326,16 @@ def require_role(allowed_roles: List[str]):
 
 
 def logout() -> None:
-    """Clear the current session while preserving theme preference."""
+    """Clear the current session while preserving theme preference, and redirect to login."""
     dark_mode = st.session_state.get("dark_mode", False)
     for key in list(st.session_state.keys()):
         del st.session_state[key]
     if dark_mode:
         st.session_state["dark_mode"] = True
+    try:
+        st.switch_page("app.py")
+    except Exception:
+        pass
 
 
 def get_current_user() -> Optional[Dict]:

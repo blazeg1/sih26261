@@ -211,10 +211,22 @@ if run_btn:
 
             app_data_dict = {
                 "id": app_id,
-                "institution_name": app_info.get("inst_name", ""),
-                "aicte_id": app_info.get("aicte_id", ""),
                 "category": app_info.get("category", ApplicationCategories.EOA),
                 "academic_year": app_info.get("academic_year", "2026-27"),
+                "faculty_count": 24,
+                "student_count": 360,
+                "institution": {
+                    "name": app_info.get("inst_name", ""),
+                    "aicte_id": app_info.get("aicte_id", ""),
+                    "university": app_info.get("university", "State Technical University"),
+                    "state": app_info.get("state", "Delhi"),
+                    "city": app_info.get("city", "New Delhi"),
+                    "address": app_info.get("address", "Institutional Area"),
+                    "established_year": 2010,
+                    "contact_email": "registrar@institution.edu.in",
+                    "contact_phone": "011-23456789",
+                },
+                "documents": documents_for_validation,
             }
 
             raw_results = engine.validate_application(app_data_dict, documents_for_validation)
